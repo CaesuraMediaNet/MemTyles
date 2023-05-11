@@ -18,24 +18,24 @@ import { useState } from 'react';
 // Pass functions as props
 
 const initBoard = [
-	{id : 0,  imgSrc : "/img/card1.png", flipped : false},
+	{id : 0,  imgSrc : "/img/card0.png", flipped : false},
 	{id : 1,  imgSrc : "/img/card1.png", flipped : false},
-	{id : 2,  imgSrc : "/img/card3.png", flipped : false},
-	{id : 3,  imgSrc : "/img/card4.png", flipped : false},
-	{id : 4,  imgSrc : "/img/card5.png", flipped : false},
-	{id : 5,  imgSrc : "/img/card6.png", flipped : false},
-	{id : 6,  imgSrc : "/img/card7.png", flipped : false},
-	{id : 7,  imgSrc : "/img/card8.png", flipped : false},
-	{id : 8,  imgSrc : "/img/card9.png", flipped : false},
-	{id : 9,  imgSrc : "/img/card1.png", flipped : false},
-	{id : 10, imgSrc : "/img/card2.png", flipped : false},
-	{id : 11, imgSrc : "/img/card3.png", flipped : false},
-	{id : 12, imgSrc : "/img/card4.png", flipped : false},
-	{id : 13, imgSrc : "/img/card5.png", flipped : false},
-	{id : 14, imgSrc : "/img/card6.png", flipped : false},
-	{id : 15, imgSrc : "/img/card7.png", flipped : false},
-	{id : 16, imgSrc : "/img/card8.png", flipped : false},
-	{id : 17, imgSrc : "/img/card9.png", flipped : false},
+	{id : 2,  imgSrc : "/img/card2.png", flipped : false},
+	{id : 3,  imgSrc : "/img/card3.png", flipped : false},
+	{id : 4,  imgSrc : "/img/card4.png", flipped : false},
+	{id : 5,  imgSrc : "/img/card5.png", flipped : false},
+	{id : 6,  imgSrc : "/img/card6.png", flipped : false},
+	{id : 7,  imgSrc : "/img/card7.png", flipped : false},
+	{id : 8,  imgSrc : "/img/card8.png", flipped : false},
+	{id : 9,  imgSrc : "/img/card0.png", flipped : false},
+	{id : 10, imgSrc : "/img/card1.png", flipped : false},
+	{id : 11, imgSrc : "/img/card2.png", flipped : false},
+	{id : 12, imgSrc : "/img/card3.png", flipped : false},
+	{id : 13, imgSrc : "/img/card4.png", flipped : false},
+	{id : 14, imgSrc : "/img/card5.png", flipped : false},
+	{id : 15, imgSrc : "/img/card6.png", flipped : false},
+	{id : 16, imgSrc : "/img/card7.png", flipped : false},
+	{id : 17, imgSrc : "/img/card8.png", flipped : false},
 ];
 
 function Card ({id, imgSrc, width, height, clicked, flipped}) {
@@ -48,28 +48,32 @@ function Card ({id, imgSrc, width, height, clicked, flipped}) {
 	);
 }
 
-function flipCard (board, id) {
+function flipCard (board, card) {
 	let newBoard   = JSON.parse(JSON.stringify(board));
 	let numFlipped = 0;
 	let notPoss    = false;
-	let match      = null;
+	let matches    = null;
 	let won        = false;
-	newBoard.forEach (card => {
-		if (card.flipped) {
+	newBoard.forEach (thisCard => {
+		if (thisCard.flipped) {
 			numFlipped++;
-			if (match && match === card.imgSrc) {
-				won = true;
-				console.log ("You won!");
-			} else {
-				match = card.imgSrc;
-			}
 		}
 		if (numFlipped > 1) {
 			notPoss = true;
 		}
 	});
 	if (!notPoss) {
-		newBoard[id] = {id : id, imgSrc : "/img/card" + id + ".png", flipped : !newBoard[id].flipped};
+		newBoard[card.id] = {id : card.id, imgSrc : card.imgSrc, flipped : !newBoard[card.id].flipped};
+		newBoard.forEach (thisCard => {
+			if (thisCard.flipped) {
+				if (matches && matches === thisCard.imgSrc) {
+					won = true;
+					console.log ("You won!");
+				} else {
+					matches = thisCard.imgSrc;
+				}
+			}
+		});
 	}
 	return {board : newBoard, won : won};
 }
@@ -88,8 +92,8 @@ export default function Game () {
 			</button>
 		);
 	}
-	function handleClick (id) {
-		let play = flipCard (board, id);
+	function handleClick (card) {
+		let play = flipCard (board, card);
 		setBoard(play.board);
 		if (play.won) setWonPlay (true);
 	}
@@ -100,7 +104,7 @@ export default function Game () {
 			img={card.imgSrc}
 			width={100}
 			height={100}
-			clicked={() => handleClick (card.id)}
+			clicked={() => handleClick (card)}
 			flipped={card.flipped}
 		/>
 	);
