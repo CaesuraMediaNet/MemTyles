@@ -7,19 +7,8 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-// Layout
-// Default export : 
-// Game
-//   Title
-//   Clear
-//   ClothTable
-//   Results
-//
-// Card
-// ClothTable
-//      State of all the Cards
-// Clear
-// Pass functions as props
+// ToDo : Unflip unwon ones rather than clear the board entirely.
+// Win all splash.
 
 const initBoard = [
 	{id : 0,  imgSrc : "/img/card0.png", flipped : false, won : false},
@@ -47,8 +36,7 @@ function Card ({id, imgSrc, width, height, clicked, flipped, won}) {
 		<div onClick={clicked} className={utilStyles.card}>
 			<p>{id}</p>
 			<img src={imgSrc} width={width} height={height} />
-			{flipped ? <p>Flipped</p> : <p>Not Flipped</p>}
-			{won     && <p>WON!</p>}
+			{flipped ? <p>Flipped</p> : won ? <p>Won!</p> : <p>Not Flipped</p>}
 		</div>
 	);
 }
@@ -58,15 +46,6 @@ function Card ({id, imgSrc, width, height, clicked, flipped, won}) {
 export default function Game () {
 	const [board, setBoard]           = useState (initBoard);
 	const [wonPlay, setWonPlay]       = useState (false);
-
-	/*
-	console.log ("numFlipped : " + numFlipped);
-	console.log ("notPoss : ", notPoss);
-	console.log ("matches : ", matches);
-	console.log ("won : ", won);
-	console.log ("card1 : ", card1);
-	console.log ("card2 : ", card2);
-	*/
 
 	function flipCard (card) {
 
@@ -103,8 +82,6 @@ export default function Game () {
 					newBoard.push ({...thisCard});
 				}
 			});
-			console.log ("newBoard : ", newBoard);
-
 
 			// Now see if this flipped card matches any previous one.
 			//
