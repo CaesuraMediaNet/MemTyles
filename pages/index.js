@@ -58,12 +58,6 @@ function Card ({id, imgSrc, width, height, clicked, flipped, won}) {
 export default function Game () {
 	const [board, setBoard]           = useState (initBoard);
 	const [wonPlay, setWonPlay]       = useState (false);
-	const [numFlipped, setNumFlipped] = useState (0);
-	const [notPoss, setNotPoss]       = useState (false);
-	const [matches, setMatches]       = useState ();
-	const [won, setWon]               = useState (false);
-	const [card1, setCard1]           = useState ();
-	const [card2, setCard2]           = useState ();
 
 	/*
 	console.log ("numFlipped : " + numFlipped);
@@ -78,19 +72,22 @@ export default function Game () {
 
 		// Count the number of already flipped cards, and stop if this is the third one.
 		//
+		let notPoss    = false;
+		let numFlipped = 0;
+		let won        = false;
 		for (let i=0; i < board.length; i++) {
 			let thisCard = board[i];
 			if (thisCard.flipped) {
-				setNumFlipped (numFlipped + 1);
+				numFlipped++;
 			}
 			if (numFlipped > 1) {
-				setNotPoss(true);
+				notPoss = true;
 				break;
 			}
 		};
-		console.log ("numFlipped [2]: " + numFlipped); // this is 0, wha? When console.log above is 1
 
 		if (!notPoss) {
+
 			// Change the one element to be flipped
 			//
 			let newBoard = [];
@@ -108,35 +105,38 @@ export default function Game () {
 			});
 			console.log ("newBoard : ", newBoard);
 
+
 			// Now see if this flipped card matches any previous one.
 			//
+			let card1, card2;
+			let matches = false;
 			for (let i=0; i < newBoard.length; i++) {
 				let thisCard = newBoard[i];
 				if (thisCard.flipped) {
 					if (matches && matches === thisCard.imgSrc) {
-						setWon(true);
-						setCard2(thisCard);
+						won   = true;
+						card2 = thisCard;
 						console.log ("You won!", card1, card2);
 						break;
 					} else {
-						setMatches(thisCard.imgSrc);
-						setCard1(thisCard);
+						matches = thisCard.imgSrc;
+						card1   = thisCard;
 					}
 				}
 			}
 			if (typeof(card1) !== "undefined" && typeof(card2) !== "undefined") {
 				console.log ("Cards matching : ", card1, card2);
+
+				// Set flipped back to false and won to true to leave the square
+				// on the board in its place. Same as the one with cards, don't move things
+				// about.
+				//
+				newBoard[card1.id] = {id : card1.id,  imgSrc : card1.imgSrc, flipped : false, won : true};
+				newBoard[card2.id] = {id : card2.id,  imgSrc : card2.imgSrc, flipped : false, won : true};
 			}
+
 			setBoard (newBoard);
 		}
-		/*
-		setWon(false);
-		setCard1();
-		setCard2();
-		setMatches();
-		setNotPoss (false);
-		setNumFlipped(0);
-		*/
 		return {won : won};
 	}
 
