@@ -2,13 +2,11 @@ import Head from 'next/head';
 import Layout, { siteTitle } from '../components/layout';
 import utilStyles from '../styles/utils.module.css';
 import { useState } from 'react';
+import { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
-// ToDo : Unflip unwon ones rather than clear the board entirely.
-// Win all splash.
 
 const initBoard = [
 	{id : 0,  imgSrc : "/img/card0.png", flipped : false, won : false},
@@ -34,18 +32,51 @@ const initBoard = [
 function Card ({id, imgSrc, width, height, clicked, flipped, won}) {
 	return (
 		<div onClick={clicked} className={utilStyles.card}>
-			<p>{id}</p>
+			<p>{imgSrc}</p>
 			<img src={imgSrc} width={width} height={height} />
 			{flipped ? <p>Flipped</p> : won ? <p>Won!</p> : <p>Not Flipped</p>}
 		</div>
 	);
 }
 
+// Shuffle only the images, not the ids as they match the arrary indeces.
+// Shuffle the whole thing first then set the ids.
+// https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+// https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+//
+function shuffleCards (cards) {
+  let currentIndex = cards.length,  randomIndex;
 
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [cards[currentIndex], cards[randomIndex]] = [cards[randomIndex], cards[currentIndex]];
+  }
+  // Ids in order.
+  //
+  for (let i=0; i < cards.length; i++) {
+  	cards[i].id = i;
+  }
+  console.log ("Shuffled cards : ", cards);
+  return cards;
+}
 
 export default function Game () {
-	const [board, setBoard]           = useState (initBoard);
-	const [wonPlay, setWonPlay]       = useState (false);
+
+	const [board, setBoard]     = useState (initBoard);
+	const [wonPlay, setWonPlay] = useState (false);
+
+	// When all loaded up, shuffle the cards to avoid a hydration error.
+	//
+	useEffect(() => {
+		let shuffledBoard = shuffleCards(initBoard.slice());
+		setBoard (shuffledBoard);
+	}, [])
 
 	function flipCard (card) {
 
@@ -121,14 +152,16 @@ export default function Game () {
 	}
 
 	function clearBoard () {
-		setBoard(initBoard);
+		console.log ("clearBoard called");
+		let shuffledCards = shuffleCards(initBoard.slice()); // slice to make a copy of the initBoard rather than a reference which seems to have been used by the state, or soemthing.
+		setBoard(shuffledCards);
 		setWonPlay(false);
 	}
 	function ClearButton () {
 		return (
 			<button
 				className={utilStyles.button}
-				onClick={() => clearBoard(initBoard)}
+				onClick={clearBoard}
 			>
 				Clear Board
 			</button>
@@ -136,7 +169,7 @@ export default function Game () {
 	}
 	function handleClick (card) {
 		let { won } = flipCard (card);
-		console.log ("Board after flipCard : ", board);
+		// console.log ("Board after flipCard : ", board);
 		if (won) setWonPlay (true);
 	}
 	const cardTable = board.map (card => 
@@ -144,7 +177,7 @@ export default function Game () {
 			<Card
 				key={card.id}
 				id={card.id}
-				img={card.imgSrc}
+				imgSrc={card.imgSrc}
 				width={100}
 				height={100}
 				clicked={() => handleClick (card)}
