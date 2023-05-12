@@ -32,9 +32,13 @@ const initBoard = [
 function Card ({id, imgSrc, width, height, clicked, flipped, won}) {
 	return (
 		<div onClick={clicked} className={utilStyles.card}>
-			<p>{imgSrc}</p>
-			<img src={imgSrc} width={width} height={height} />
-			{flipped ? <p>Flipped</p> : won ? <p>Won!</p> : <p>Not Flipped</p>}
+			<img
+				src={flipped ? imgSrc : won ? imgSrc : "/img/back.png" }
+				width={width}
+				height={height}
+			/>
+			{/*flipped ? <p>Flipped</p> : won ? <p>Won!</p> : <p>Not Flipped</p>*/}
+			{won && <p>Matched!</p>}
 		</div>
 	);
 }
@@ -62,14 +66,14 @@ function shuffleCards (cards) {
   for (let i=0; i < cards.length; i++) {
   	cards[i].id = i;
   }
-  console.log ("Shuffled cards : ", cards);
   return cards;
 }
 
 export default function Game () {
 
-	const [board, setBoard]     = useState (initBoard);
-	const [wonPlay, setWonPlay] = useState (false);
+	const [board, setBoard]           = useState (initBoard);
+	const [wonPlay, setWonPlay]       = useState (false);
+	const [wonAllPlay, setWonAllPlay] = useState (false);
 
 	// When all loaded up, then shuffle the cards to avoid a hydration error.
 	// useState (shuffleCards(initBoard.slice()) gave hydration errors.
@@ -85,21 +89,37 @@ export default function Game () {
 		// Count the number of already flipped cards, and stop if this is the third one.
 		//
 		let notPoss    = false;
-		let numFlipped = 0;
 		let won        = false;
-		for (let i=0; i < board.length; i++) {
-			let thisCard = board[i];
+		let wonAll     = false;
+		if (card.won) {
+			notPoss = true;
+		} else {
+			let numFlipped = 0;
+			for (let i=0; i < board.length; i++) {
+				let thisCard = board[i];
 
-			// If this card has been clicked, then unflip it, and don't increase the count.
-			//
-			if (thisCard.flipped && !card.flipped) {
-				numFlipped++;
-			}
-			if (numFlipped > 1) {
-				notPoss = true;
-				break;
-			}
-		};
+				// If this card has been clicked, then unflip it, and don't increase the count.
+				//
+				if (thisCard.flipped && !card.flipped) {
+					numFlipped++;
+				}
+				if (numFlipped > 1) {
+					notPoss = true;
+					break;
+				}
+			};
+		}
+
+		// Check for overall winner, all cards won.
+		//
+		let wonCount =0;
+		for (let i=0; i < board.length; i++) {
+			if (board[i].won) wonCount++;
+		}
+		if (wonCount === board.length - 2) { // -2 because we're two cards behind updating the board here.
+			wonAll  = true;
+		}
+		console.log ("wonCount, board.length : ", wonCount, board.length);
 
 		if (!notPoss) {
 
@@ -129,7 +149,6 @@ export default function Game () {
 					if (matches && matches === thisCard.imgSrc) {
 						won   = true;
 						card2 = thisCard;
-						console.log ("You won!", card1, card2);
 						break;
 					} else {
 						matches = thisCard.imgSrc;
@@ -138,7 +157,6 @@ export default function Game () {
 				}
 			}
 			if (typeof(card1) !== "undefined" && typeof(card2) !== "undefined") {
-				console.log ("Cards matching : ", card1, card2);
 
 				// Set flipped back to false and won to true to leave the square
 				// on the board in its place. Same as the one with cards, don't move things
@@ -150,14 +168,14 @@ export default function Game () {
 
 			setBoard (newBoard);
 		}
-		return {won : won};
+		return {won : won, wonAll : wonAll};
 	}
 
 	function clearBoard () {
-		console.log ("clearBoard called");
 		let shuffledCards = shuffleCards(initBoard.slice()); // slice to make a copy of the initBoard rather than a reference which seems to have been used by the state, or soemthing.
 		setBoard(shuffledCards);
 		setWonPlay(false);
+		setWonAllPlay(false);
 	}
 	function ClearButton () {
 		return (
@@ -170,12 +188,12 @@ export default function Game () {
 		);
 	}
 	function handleClick (card) {
-		let { won } = flipCard (card);
-		// console.log ("Board after flipCard : ", board);
+		let { won, wonAll } = flipCard (card);
 		if (won) setWonPlay (true);
+		if (wonAll) setWonAllPlay (true);
 	}
 	const cardTable = board.map (card => 
-		<Col key={card.id} md={3}>
+		<Col key={card.id} md={2}>
 			<Card
 				key={card.id}
 				id={card.id}
@@ -192,8 +210,9 @@ export default function Game () {
 		<Layout>
 			<h1>MemTyles</h1>
 			<ClearButton />
-			{wonPlay && <h6>You won!</h6>}
-			<Container>
+			{wonPlay && <h6>It&#39;s a match!</h6>}
+			{wonAllPlay && <h1>You&#39;ve won the Game!</h1>}
+			<Container fluid>
 				<Row>
 					{cardTable}
 				</Row>
