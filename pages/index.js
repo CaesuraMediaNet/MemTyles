@@ -71,7 +71,9 @@ export default function Game () {
 	const [board, setBoard]     = useState (initBoard);
 	const [wonPlay, setWonPlay] = useState (false);
 
-	// When all loaded up, shuffle the cards to avoid a hydration error.
+	// When all loaded up, then shuffle the cards to avoid a hydration error.
+	// useState (shuffleCards(initBoard.slice()) gave hydration errors.
+	// Slice to be safe - copies the array.
 	//
 	useEffect(() => {
 		let shuffledBoard = shuffleCards(initBoard.slice());
