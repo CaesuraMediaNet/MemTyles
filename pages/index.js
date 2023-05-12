@@ -56,7 +56,10 @@ export default function Game () {
 		let won        = false;
 		for (let i=0; i < board.length; i++) {
 			let thisCard = board[i];
-			if (thisCard.flipped) {
+
+			// If this card has been clicked, then unflip it, and don't increase the count.
+			//
+			if (thisCard.flipped && !card.flipped) {
 				numFlipped++;
 			}
 			if (numFlipped > 1) {
@@ -75,7 +78,7 @@ export default function Game () {
 					newBoard.push ({
 						id      : card.id,
 						imgSrc  : card.imgSrc,
-						flipped : true,
+						flipped : !card.flipped, // toggle the flip - in case it needs unflipping.
 						won     : false,
 					});
 				} else {
