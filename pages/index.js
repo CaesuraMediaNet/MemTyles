@@ -33,12 +33,13 @@ function Card ({id, imgSrc, width, height, clicked, flipped, won}) {
 	return (
 		<div onClick={clicked} className={utilStyles.card}>
 			<img
+				className={utilStyles.img}
 				src={flipped ? imgSrc : won ? imgSrc : "/img/back.png" }
 				width={width}
 				height={height}
 			/>
 			{/*flipped ? <p>Flipped</p> : won ? <p>Won!</p> : <p>Not Flipped</p>*/}
-			{won && <p>Matched!</p>}
+			{won ? <p>Matched!</p> : <p>&nbsp;</p>}
 		</div>
 	);
 }
