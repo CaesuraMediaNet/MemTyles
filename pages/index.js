@@ -194,7 +194,7 @@ export default function Game () {
 		if (wonAll) setWonAllPlay (true);
 	}
 	const cardTable = board.map (card => 
-		<Col key={card.id} sm={2}>
+		<Col key={card.id} xs={6} sm={4} md={2} lg={2}>
 			<Card
 				key={card.id}
 				id={card.id}
