@@ -211,7 +211,6 @@ export default function Game () {
 		<Layout>
 			<h1>MemTyles</h1>
 			<ClearButton />
-			{wonPlay && <h6>It&#39;s a match!</h6>}
 			{wonAllPlay && <h1>You&#39;ve won the Game!</h1>}
 			<Container fluid>
 				<Row>
