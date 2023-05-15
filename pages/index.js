@@ -31,9 +31,9 @@ const initBoard = [
 
 function Card ({id, imgSrc, width, height, clicked, flipped, won}) {
 	return (
-		<div onClick={clicked} className={utilStyles.card}>
+		<div onClick={clicked} className={flipped ? utilStyles.cardFlipped : utilStyles.cardUnflipped}>
 			<img
-				className={utilStyles.img}
+				className={flipped ? utilStyles.imgUnflipped : utilStyles.imgFlipped}
 				src={flipped ? imgSrc : won ? imgSrc : "/img/back.png" }
 				width={width}
 				height={height}
@@ -194,7 +194,7 @@ export default function Game () {
 		if (wonAll) setWonAllPlay (true);
 	}
 	const cardTable = board.map (card => 
-		<Col key={card.id} md={2}>
+		<Col key={card.id} sm={2}>
 			<Card
 				key={card.id}
 				id={card.id}
@@ -210,9 +210,15 @@ export default function Game () {
 	return (
 		<Layout>
 			<h1>MemTyles</h1>
-			<ClearButton />
-			{wonAllPlay && <h1>You&#39;ve won the Game!</h1>}
 			<Container fluid>
+				<Row>
+					<Col md={6}>
+						<ClearButton />
+					</Col>
+					<Col md={6}>
+						{wonAllPlay && <h1>You&#39;ve won the Game!</h1>}
+					</Col>
+				</Row>
 				<Row>
 					{cardTable}
 				</Row>
