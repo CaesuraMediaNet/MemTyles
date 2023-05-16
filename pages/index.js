@@ -18,15 +18,14 @@ const initBoard = [
 	{id : 6,  imgSrc : "/img/card6.png", flipped : false, won : false},
 	{id : 7,  imgSrc : "/img/card7.png", flipped : false, won : false},
 	{id : 8,  imgSrc : "/img/card8.png", flipped : false, won : false},
-	{id : 9,  imgSrc : "/img/card0.png", flipped : false, won : false},
-	{id : 10, imgSrc : "/img/card1.png", flipped : false, won : false},
-	{id : 11, imgSrc : "/img/card2.png", flipped : false, won : false},
-	{id : 12, imgSrc : "/img/card3.png", flipped : false, won : false},
-	{id : 13, imgSrc : "/img/card4.png", flipped : false, won : false},
-	{id : 14, imgSrc : "/img/card5.png", flipped : false, won : false},
-	{id : 15, imgSrc : "/img/card6.png", flipped : false, won : false},
-	{id : 16, imgSrc : "/img/card7.png", flipped : false, won : false},
-	{id : 17, imgSrc : "/img/card8.png", flipped : false, won : false},
+	{id : 9,  imgSrc : "/img/card9.png", flipped : false, won : false},
+	{id : 10,  imgSrc : "/img/card10.png", flipped : false, won : false},
+	{id : 11,  imgSrc : "/img/card11.png", flipped : false, won : false},
+	{id : 12,  imgSrc : "/img/card12.png", flipped : false, won : false},
+	{id : 13,  imgSrc : "/img/card13.png", flipped : false, won : false},
+	{id : 14,  imgSrc : "/img/card14.png", flipped : false, won : false},
+	{id : 15,  imgSrc : "/img/card15.png", flipped : false, won : false},
+	{id : 16,  imgSrc : "/img/card16.png", flipped : false, won : false},
 ];
 
 function Card ({id, imgSrc, width, height, clicked, flipped, won}) {
@@ -50,7 +49,8 @@ function Card ({id, imgSrc, width, height, clicked, flipped, won}) {
 // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 //
 function shuffleCards (cards) {
-  let currentIndex = cards.length,  randomIndex;
+  let doubledUp = [...cards, ...cards];
+  let currentIndex = doubledUp.length,  randomIndex;
 
   // While there remain elements to shuffle.
   while (currentIndex != 0) {
@@ -60,14 +60,12 @@ function shuffleCards (cards) {
     currentIndex--;
 
     // And swap it with the current element.
-    [cards[currentIndex], cards[randomIndex]] = [cards[randomIndex], cards[currentIndex]];
+    [doubledUp[currentIndex], doubledUp[randomIndex]] = [doubledUp[randomIndex], doubledUp[currentIndex]];
   }
-  // Ids in order.
+  // Ids in order. A for (let i ...) loop setting doubledUp[i].id = i does not work well.
   //
-  for (let i=0; i < cards.length; i++) {
-  	cards[i].id = i;
-  }
-  return cards;
+  let indexedCards = doubledUp.map((card, index) => ({...card, id : index}));
+  return indexedCards;
 }
 
 export default function Game () {
