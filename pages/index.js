@@ -9,6 +9,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import {Scores, addScore} from '../components/scores';
 
 const initBoard = [
 	{id : 0,  imgSrc : "/img/card0.png", flipped : false, won : false},
@@ -81,7 +82,6 @@ export default function Game () {
 	const [numCards, setNumCards]     = useState (8);
 	const [numClicks, setNumClicks]   = useState (0);
 	const [timePlayed,setTimePlayed]  = useState(0);
-	const [intervalId,setIntervalId]  = useState(0);
 	const [gameTime,setGameTime]      = useState(0);
 	const numCardsRef                 = useRef();
 
@@ -99,12 +99,21 @@ export default function Game () {
 	useEffect(() => {
 		let shuffledBoard = shuffleCards(initBoard.slice(), numCards);
 		setBoard (shuffledBoard);
-		const token = setInterval(updateTime, 1000); // stInterval not setTimer
-		setIntervalId (token);
+	}, [numCards])
+
+	// AKJC HERE : Set the game timer going. This has the effect of making the dropdown reset, doh!
+	// AKJC HERE : Put this in its own component then? How to get the value of the timer from a component?
+	// AKJC HERE : props : Clock ({start, stop }) { ...} maybe? How to read it to get it into a cookie? if (stop) {setCookie; return (<p>...</p>)???
+	// AKJC HERE : Clues perhaps : https://stackoverflow.com/questions/68844258/how-to-start-and-stop-timer-display-in-reactjs
+	// AKJC HERE : https://react.dev/reference/react/useCallback : https://stackoverflow.com/questions/59245140/react-select-always-re-render-even-when-change-another-state
+	// AKJC HERE : https://felixgerschau.com/react-rerender-components/
+	//
+	useEffect(() => {
+		const token = setInterval(updateTime, 1000);
 		return function cleanUp() {
 			clearTimeout(token);
 		}
-	}, [numCards])
+	}, [])
 
 	function flipCard (card) {
 		setNumClicks (numClicks + 1);
@@ -225,7 +234,6 @@ export default function Game () {
 					ref={numCardsRef}
 					onChange={() => changeNumCards ()}
 					aria-label="Select number of Cards"
-					value={numCards}
 				>
 					<option value="8">8</option>
 					<option value="12">12</option>
@@ -251,6 +259,16 @@ export default function Game () {
 			);
 		}
 	}
+	function ScoresTable () {
+		let scores = Scores ();
+		let stringJson = JSON.stringify (scores);
+		return (
+			<>
+			<h6>Scores</h6>
+			<p>{stringJson}</p>
+			</>
+		);
+	}
 
 	function handleClick (card) {
 		let { won, wonAll } = flipCard (card);
@@ -258,6 +276,12 @@ export default function Game () {
 		if (wonAll) {
 			setWonAllPlay (true);
 			setGameTime ((gameTime) => timePlayed);
+			let thisGame = {
+				numCards  : numCards,
+				numClicks : numClicks,
+				gameTime  : gameTime,
+			}
+			addScore (thisGame);
 		}
 	}
 	const cardTable = board.map (card => {
@@ -277,6 +301,7 @@ export default function Game () {
 	return (
 		<Layout>
 			<h1>MemTyles</h1>
+			<ScoresTable />
 			<Container fluid>
 				<Row>
 					<Col md={3}>
