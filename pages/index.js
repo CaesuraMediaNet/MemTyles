@@ -3,10 +3,12 @@ import Layout, { siteTitle } from '../components/layout';
 import utilStyles from '../styles/utils.module.css';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
 
 const initBoard = [
 	{id : 0,  imgSrc : "/img/card0.png", flipped : false, won : false},
@@ -48,8 +50,10 @@ function Card ({id, imgSrc, width, height, clicked, flipped, won}) {
 // https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
 // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 //
-function shuffleCards (cards) {
-  let doubledUp = [...cards, ...cards];
+function shuffleCards (cards, numCards) {
+  let selectedCards = cards.slice (0, parseInt (numCards / 2));
+  console.log ("selectedCards : ", selectedCards, numCards);
+  let doubledUp     = [...selectedCards, ...selectedCards];
   let currentIndex = doubledUp.length,  randomIndex;
 
   // While there remain elements to shuffle.
@@ -63,6 +67,7 @@ function shuffleCards (cards) {
     [doubledUp[currentIndex], doubledUp[randomIndex]] = [doubledUp[randomIndex], doubledUp[currentIndex]];
   }
   // Ids in order. A for (let i ...) loop setting doubledUp[i].id = i does not work well.
+  // https://stackoverflow.com/questions/39827087/add-key-value-pair-to-all-objects-in-array
   //
   let indexedCards = doubledUp.map((card, index) => ({...card, id : index}));
   return indexedCards;
@@ -73,15 +78,17 @@ export default function Game () {
 	const [board, setBoard]           = useState (initBoard);
 	const [wonPlay, setWonPlay]       = useState (false);
 	const [wonAllPlay, setWonAllPlay] = useState (false);
+	const [numCards, setNumCards]     = useState (9);
+	const numCardsRef                 = useRef();
 
 	// When all loaded up, then shuffle the cards to avoid a hydration error.
 	// useState (shuffleCards(initBoard.slice()) gave hydration errors.
 	// Slice to be safe - copies the array.
 	//
 	useEffect(() => {
-		let shuffledBoard = shuffleCards(initBoard.slice());
+		let shuffledBoard = shuffleCards(initBoard.slice(), numCards);
 		setBoard (shuffledBoard);
-	}, [])
+	}, [numCards])
 
 	function flipCard (card) {
 
@@ -171,7 +178,7 @@ export default function Game () {
 	}
 
 	function clearBoard () {
-		let shuffledCards = shuffleCards(initBoard.slice()); // slice to make a copy of the initBoard rather than a reference which seems to have been used by the state, or soemthing.
+		let shuffledCards = shuffleCards(initBoard.slice(), numCards); // slice to make a copy of the initBoard rather than a reference which seems to have been used by the state, or soemthing.
 		setBoard(shuffledCards);
 		setWonPlay(false);
 		setWonAllPlay(false);
@@ -184,6 +191,23 @@ export default function Game () {
 			>
 				Clear Board
 			</button>
+		);
+	}
+	function changeNumCards () {
+		console.log ("changeNumCards called : ", numCardsRef.current.value);
+		setNumCards (numCardsRef.current.value);
+	}
+	function SelectNumCards () {
+		return (
+			<Form>
+				<Form.Select ref={numCardsRef} onChange={() => changeNumCards ()} aria-label="Select number of Cards">
+					<option>Select Number of Cards</option>
+					<option value="12">12</option>
+					<option value="18">18</option>
+					<option value="24">24</option>
+					<option value="36">36</option>
+				</Form.Select>
+			</Form>
 		);
 	}
 	function handleClick (card) {
@@ -210,10 +234,13 @@ export default function Game () {
 			<h1>MemTyles</h1>
 			<Container fluid>
 				<Row>
-					<Col md={6}>
+					<Col md={4}>
 						<ClearButton />
 					</Col>
-					<Col md={6}>
+					<Col md={4}>
+						<SelectNumCards />
+					</Col>
+					<Col md={4}>
 						{wonAllPlay && <h1>You&#39;ve won the Game!</h1>}
 					</Col>
 				</Row>
