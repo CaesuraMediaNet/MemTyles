@@ -79,18 +79,32 @@ export default function Game () {
 	const [wonPlay, setWonPlay]       = useState (false);
 	const [wonAllPlay, setWonAllPlay] = useState (false);
 	const [numCards, setNumCards]     = useState (8);
+	const [numClicks, setNumClicks]   = useState (0);
+	const [timePlayed,setTimePlayed]  = useState(0);
 	const numCardsRef                 = useRef();
+
+	// https://stackoverflow.com/questions/63409136/set-countdown-timer-react-js
+	//
+	function updateTime () {
+		setTimePlayed ((timePlayed) => timePlayed + 1)
+	}
 
 	// When all loaded up, then shuffle the cards to avoid a hydration error.
 	// useState (shuffleCards(initBoard.slice()) gave hydration errors.
 	// Slice to be safe - copies the array.
+	// Do this when numCards changes too.
 	//
 	useEffect(() => {
 		let shuffledBoard = shuffleCards(initBoard.slice(), numCards);
 		setBoard (shuffledBoard);
+		const token = setInterval(updateTime, 1000); // stInterval not setTimer
+		return function cleanUp() {
+			clearTimeout(token);
+		}
 	}, [numCards])
 
 	function flipCard (card) {
+		setNumClicks (numClicks + 1);
 
 		// Count the number of already flipped cards, and stop if this is the third one.
 		//
@@ -116,16 +130,6 @@ export default function Game () {
 			};
 		}
 
-		// Check for overall winner, all cards won.
-		//
-		let wonCount =0;
-		for (let i=0; i < board.length; i++) {
-			if (board[i].won) wonCount++;
-		}
-		if (wonCount === board.length - 2) { // -2 because we're two cards behind updating the board here.
-			wonAll  = true;
-		}
-		console.log ("wonCount, board.length : ", wonCount, board.length);
 
 		if (!notPoss) {
 
@@ -172,6 +176,16 @@ export default function Game () {
 				newBoard[card2.id] = {id : card2.id,  imgSrc : card2.imgSrc, flipped : false, won : true};
 			}
 
+			// Check for overall winner, all cards won.
+			//
+			let wonCount =0;
+			for (let i=0; i < newBoard.length; i++) {
+				if (newBoard[i].won) wonCount++;
+			}
+			if (wonCount === newBoard.length) {
+				wonAll  = true;
+			}
+			console.log ("wonCount, board.length : ", wonCount, newBoard.length);
 			setBoard (newBoard);
 		}
 		return {won : won, wonAll : wonAll};
@@ -182,6 +196,8 @@ export default function Game () {
 		setBoard(shuffledCards);
 		setWonPlay(false);
 		setWonAllPlay(false);
+		setNumClicks(0);
+		setTimePlayed(0);
 	}
 	function ClearButton () {
 		return (
@@ -194,9 +210,8 @@ export default function Game () {
 		);
 	}
 	function changeNumCards () {
-		console.log ("changeNumCards called : ", numCardsRef.current.value);
-		setNumCards (numCardsRef.current.value);
-		setWonPlay(false);
+		setNumCards  (numCardsRef.current.value);
+		setWonPlay   (false);
 		setWonAllPlay(false);
 	}
 	function SelectNumCards () {
@@ -218,13 +233,29 @@ export default function Game () {
 			</Form>
 		);
 	}
+	function Progress () {
+		if (numClicks > 0 && ! wonAllPlay) {
+			return (
+				<p>Goes : {numClicks}</p>
+			);
+		} else if (wonAllPlay) {
+			return (
+				<p>You did {numCards} Tyles in {numClicks} goes.</p>
+			);
+		} else {
+			return (
+				<p>Select only two cards, click again to turn back over</p>
+			);
+		}
+	}
+
 	function handleClick (card) {
 		let { won, wonAll } = flipCard (card);
-		if (won) setWonPlay (true);
+		if (won)    setWonPlay    (true);
 		if (wonAll) setWonAllPlay (true);
 	}
-	const cardTable = board.map (card => 
-		<Col key={card.id} xs={6} sm={4} md={2} lg={2}>
+	const cardTable = board.map (card => {
+		return <Col key={card.id} xs={6} sm={4} md={2} lg={2}>
 			<Card
 				key={card.id}
 				id={card.id}
@@ -236,20 +267,24 @@ export default function Game () {
 				won={card.won}
 			/>
 		</Col>
-	);
+	});
 	return (
 		<Layout>
 			<h1>MemTyles</h1>
 			<Container fluid>
 				<Row>
-					<Col md={4}>
+					<Col md={3}>
 						<ClearButton />
 					</Col>
-					<Col md={4}>
+					<Col md={3}>
+						{new Date(timePlayed * 1000).toISOString().slice(11, 19)}
+						<Progress />
+					</Col>
+					<Col md={3}>
 						<SelectNumCards />
 					</Col>
-					<Col md={4}>
-						{wonAllPlay && <h6>You&#39;ve won the Game!</h6>}
+					<Col md={3}>
+						{wonAllPlay && <h5>You&#39;ve won the Game!</h5>}
 					</Col>
 				</Row>
 				<Row>
