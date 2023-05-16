@@ -78,7 +78,7 @@ export default function Game () {
 	const [board, setBoard]           = useState (initBoard);
 	const [wonPlay, setWonPlay]       = useState (false);
 	const [wonAllPlay, setWonAllPlay] = useState (false);
-	const [numCards, setNumCards]     = useState (9);
+	const [numCards, setNumCards]     = useState (8);
 	const numCardsRef                 = useRef();
 
 	// When all loaded up, then shuffle the cards to avoid a hydration error.
@@ -196,12 +196,20 @@ export default function Game () {
 	function changeNumCards () {
 		console.log ("changeNumCards called : ", numCardsRef.current.value);
 		setNumCards (numCardsRef.current.value);
+		setWonPlay(false);
+		setWonAllPlay(false);
 	}
 	function SelectNumCards () {
 		return (
 			<Form>
-				<Form.Select ref={numCardsRef} onChange={() => changeNumCards ()} aria-label="Select number of Cards">
-					<option>Select Number of Cards</option>
+				<Form.Label>Select Number of Tyles</Form.Label>
+				<Form.Select
+					ref={numCardsRef}
+					onChange={() => changeNumCards ()}
+					aria-label="Select number of Cards"
+					value={numCards}
+				>
+					<option value="8">8</option>
 					<option value="12">12</option>
 					<option value="18">18</option>
 					<option value="24">24</option>
@@ -241,7 +249,7 @@ export default function Game () {
 						<SelectNumCards />
 					</Col>
 					<Col md={4}>
-						{wonAllPlay && <h1>You&#39;ve won the Game!</h1>}
+						{wonAllPlay && <h6>You&#39;ve won the Game!</h6>}
 					</Col>
 				</Row>
 				<Row>
