@@ -81,6 +81,8 @@ export default function Game () {
 	const [numCards, setNumCards]     = useState (8);
 	const [numClicks, setNumClicks]   = useState (0);
 	const [timePlayed,setTimePlayed]  = useState(0);
+	const [intervalId,setIntervalId]  = useState(0);
+	const [gameTime,setGameTime]      = useState(0);
 	const numCardsRef                 = useRef();
 
 	// https://stackoverflow.com/questions/63409136/set-countdown-timer-react-js
@@ -98,6 +100,7 @@ export default function Game () {
 		let shuffledBoard = shuffleCards(initBoard.slice(), numCards);
 		setBoard (shuffledBoard);
 		const token = setInterval(updateTime, 1000); // stInterval not setTimer
+		setIntervalId (token);
 		return function cleanUp() {
 			clearTimeout(token);
 		}
@@ -240,7 +243,7 @@ export default function Game () {
 			);
 		} else if (wonAllPlay) {
 			return (
-				<p>You did {numCards} Tyles in {numClicks} goes.</p>
+				<p>You did {numCards} Tyles in {numClicks} goes and {gameTime} seconds</p>
 			);
 		} else {
 			return (
@@ -252,7 +255,10 @@ export default function Game () {
 	function handleClick (card) {
 		let { won, wonAll } = flipCard (card);
 		if (won)    setWonPlay    (true);
-		if (wonAll) setWonAllPlay (true);
+		if (wonAll) {
+			setWonAllPlay (true);
+			setGameTime ((gameTime) => timePlayed);
+		}
 	}
 	const cardTable = board.map (card => {
 		return <Col key={card.id} xs={6} sm={4} md={2} lg={2}>
@@ -277,7 +283,8 @@ export default function Game () {
 						<ClearButton />
 					</Col>
 					<Col md={3}>
-						{new Date(timePlayed * 1000).toISOString().slice(11, 19)}
+						{wonAllPlay &&  <p>Game time   : {new Date(gameTime   * 1000).toISOString().slice(11, 19)}</p>}
+						{!wonAllPlay && <p>Time Played : {new Date(timePlayed * 1000).toISOString().slice(11, 19)}</p>}
 						<Progress />
 					</Col>
 					<Col md={3}>
