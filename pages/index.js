@@ -84,6 +84,7 @@ export default function Game () {
 	const [timePlayed,setTimePlayed]  = useState(0);
 	const [gameTime,setGameTime]      = useState(0);
 	const [stopTimer,setStopTimer]    = useState(false);
+	const [resetTimer,setResetTimer]    = useState(false);
 	const numCardsRef                 = useRef();
 
 	// When all loaded up, then shuffle the cards to avoid a hydration error.
@@ -191,6 +192,8 @@ export default function Game () {
 		setWonAllPlay(false);
 		setNumClicks(0);
 		setTimePlayed(0);
+		setResetTimer ((resetTimer) => true);
+		setStopTimer ((stopTimer) => false);
 	}
 	function ClearButton () {
 		return (
@@ -284,7 +287,7 @@ export default function Game () {
 		<Layout>
 			<h1>MemTyles</h1>
 			<ScoresTable />
-			<Scores stop={stopTimer} />
+			<Scores reset={resetTimer} stop={stopTimer} />
 			<Container fluid>
 				<Row>
 					<Col md={3}>

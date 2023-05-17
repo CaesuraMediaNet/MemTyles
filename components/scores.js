@@ -20,7 +20,7 @@ export function addScore (score) {
 	return scores;
 }
 
-export default function Scores ({stop}) {
+export default function Scores ({stop, reset}) {
 	const [numClicks, setNumClicks]   = useState(0);
     const [timePlayed,setTimePlayed]  = useState(0);
     const [gameTime,setGameTime]      = useState(0);
@@ -35,7 +35,10 @@ export default function Scores ({stop}) {
 		clearTimeout(token);
 	}
 	useEffect(() => {
-		if (stop) {
+		console.log ("useEffect : ", stop, reset);
+		if (reset) {
+			setTimePlayed ((timePlayed) => 0);
+		} else if (stop) {
 			clearTimeout(token);
 		} else {
 			const intervalId = setInterval(updateTime, 1000);
@@ -44,7 +47,7 @@ export default function Scores ({stop}) {
 				clearTimeout(token);
 			}
 		}
-    }, [stop]);
+    }, [stop, reset]);
 
 	return (
 		stop ? (
