@@ -20,10 +20,8 @@ export function addScore (score) {
 	return scores;
 }
 
-export default function Scores ({stop, reset}) {
-	const [numClicks, setNumClicks]   = useState(0);
+export default function GameClock ({stop, reset, gameTime}) {
     const [timePlayed,setTimePlayed]  = useState(0);
-    const [gameTime,setGameTime]      = useState(0);
     const [token,setToken]            = useState(0);
 
 	// https://stackoverflow.com/questions/63409136/set-countdown-timer-react-js
@@ -33,18 +31,21 @@ export default function Scores ({stop, reset}) {
     }
 	function stopTimer () {
 		clearTimeout(token);
+		console.log ("stopTimer : ", timePlayed);
+		gameTime ({timeS : timePlayed});
 	}
 	useEffect(() => {
 		console.log ("useEffect : ", stop, reset);
-		if (reset) {
+		if (stop) {
+			stopTimer ();
+		} else if (reset) {
 			setTimePlayed ((timePlayed) => 0);
-		} else if (stop) {
-			clearTimeout(token);
 		} else {
 			const intervalId = setInterval(updateTime, 1000);
 			setToken (intervalId);
 			return function cleanUp() {
-				clearTimeout(token);
+				console.log ("GameClock cleanUp called");
+				stopTimer ();
 			}
 		}
     }, [stop, reset]);

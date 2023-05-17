@@ -9,7 +9,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import Scores, {getScores, addScore} from '../components/scores';
+import GameClock, {getScores, addScore} from '../components/scores';
 
 const initBoard = [
 	{id : 0,  imgSrc : "/img/card0.png", flipped : false, won : false},
@@ -81,10 +81,9 @@ export default function Game () {
 	const [wonAllPlay, setWonAllPlay] = useState (false);
 	const [numCards, setNumCards]     = useState (8);
 	const [numClicks, setNumClicks]   = useState (0);
-	const [timePlayed,setTimePlayed]  = useState(0);
 	const [gameTime,setGameTime]      = useState(0);
 	const [stopTimer,setStopTimer]    = useState(false);
-	const [resetTimer,setResetTimer]    = useState(false);
+	const [resetTimer,setResetTimer]  = useState(false);
 	const numCardsRef                 = useRef();
 
 	// When all loaded up, then shuffle the cards to avoid a hydration error.
@@ -191,7 +190,6 @@ export default function Game () {
 		setWonPlay(false);
 		setWonAllPlay(false);
 		setNumClicks(0);
-		setTimePlayed(0);
 		setResetTimer ((resetTimer) => true);
 		setStopTimer ((stopTimer) => false);
 	}
@@ -228,6 +226,10 @@ export default function Game () {
 			</Form>
 		);
 	}
+	function timeGameTook ({timeS}) {
+		console.log ("timeGameTook called with ", timeS);
+		setGameTime ((gameTime) => timeS);
+	}
 	function Progress () {
 		if (numClicks > 0 && ! wonAllPlay) {
 			return (
@@ -259,7 +261,6 @@ export default function Game () {
 		if (won)    setWonPlay    (true);
 		if (wonAll) {
 			setWonAllPlay (true);
-			setGameTime ((gameTime) => timePlayed);
 			let thisGame = {
 				numCards  : numCards,
 				numClicks : numClicks,
@@ -287,13 +288,14 @@ export default function Game () {
 		<Layout>
 			<h1>MemTyles</h1>
 			<ScoresTable />
-			<Scores reset={resetTimer} stop={stopTimer} />
+			<GameClock gameTime={timeGameTook} reset={resetTimer} stop={stopTimer} />
 			<Container fluid>
 				<Row>
 					<Col md={3}>
 						<ClearButton />
 					</Col>
 					<Col md={3}>
+						<Progress />
 					</Col>
 					<Col md={3}>
 						<SelectNumCards />
