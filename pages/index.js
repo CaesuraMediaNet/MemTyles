@@ -192,8 +192,10 @@ export default function Game () {
 		setWonPlay(false);
 		setWonAllPlay(false);
 		setNumClicks(0);
-		let now = Date.now();
-		setTimerAction ((timerAction) => "reset" + now); // Keep resetting on button click, but action is still "reset".
+		let now                = Date.now();
+		let action             = "reset" + now; // Keep resetting on button click, but action is still "reset".
+		if (wonAllPlay) action = "restart";
+		setTimerAction ((timerAction) => action);
 	}
 	function ClearButton () {
 		return (

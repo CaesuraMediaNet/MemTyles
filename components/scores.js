@@ -40,7 +40,10 @@ export default function GameClock ({action, gameTime}) {
 			stopTimer ();
 		} else if (action.match (/^reset/)) { // reset1684323218711 - so that action changes but reset is the value.
 			setTimePlayed ((timePlayed) => 0);
-		} else {
+		} else if (action.match (/start/)) {
+			if (action === "restart") {
+				setTimePlayed ((timePlayed) => 0);
+			}
 			const intervalId = setInterval(updateTime, 1000);
 			setToken (intervalId);
 			return function cleanUp() {
