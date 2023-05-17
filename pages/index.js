@@ -76,15 +76,14 @@ function shuffleCards (cards, numCards) {
 
 export default function Game () {
 
-	const [board, setBoard]           = useState (initBoard);
-	const [wonPlay, setWonPlay]       = useState (false);
-	const [wonAllPlay, setWonAllPlay] = useState (false);
-	const [numCards, setNumCards]     = useState (8);
-	const [numClicks, setNumClicks]   = useState (0);
-	const [gameTime,setGameTime]      = useState(0);
-	const [stopTimer,setStopTimer]    = useState(false);
-	const [resetTimer,setResetTimer]  = useState(false);
-	const numCardsRef                 = useRef();
+	const [board, setBoard]             = useState (initBoard);
+	const [wonPlay, setWonPlay]         = useState (false);
+	const [wonAllPlay, setWonAllPlay]   = useState (false);
+	const [numCards, setNumCards]       = useState (8);
+	const [numClicks, setNumClicks]     = useState (0);
+	const [gameTime,setGameTime]        = useState(0);
+	const [timerAction,setTimerAction]  = useState("start");
+	const numCardsRef                   = useRef();
 
 	// When all loaded up, then shuffle the cards to avoid a hydration error.
 	// useState (shuffleCards(initBoard.slice()) gave hydration errors.
@@ -185,13 +184,16 @@ export default function Game () {
 	}
 
 	function clearBoard () {
-		let shuffledCards = shuffleCards(initBoard.slice(), numCards); // slice to make a copy of the initBoard rather than a reference which seems to have been used by the state, or soemthing.
+
+		// .slice() to make a copy of the initBoard rather than a reference which seems to have been used by the state, or something.
+		//
+		let shuffledCards = shuffleCards(initBoard.slice(), numCards);
 		setBoard(shuffledCards);
 		setWonPlay(false);
 		setWonAllPlay(false);
 		setNumClicks(0);
-		setResetTimer ((resetTimer) => true);
-		setStopTimer ((stopTimer) => false);
+		let now = Date.now();
+		setTimerAction ((timerAction) => "reset" + now); // Keep resetting on button click, but action is still "reset".
 	}
 	function ClearButton () {
 		return (
@@ -267,7 +269,7 @@ export default function Game () {
 				gameTime  : gameTime,
 			}
 			addScore (thisGame);
-			setStopTimer ((stopTimer) => true);
+			setTimerAction ((timerAction) => "stop");
 		}
 	}
 	const cardTable = board.map (card => {
@@ -288,7 +290,7 @@ export default function Game () {
 		<Layout>
 			<h1>MemTyles</h1>
 			<ScoresTable />
-			<GameClock gameTime={timeGameTook} reset={resetTimer} stop={stopTimer} />
+			<GameClock gameTime={timeGameTook} action={timerAction}  />
 			<Container fluid>
 				<Row>
 					<Col md={3}>

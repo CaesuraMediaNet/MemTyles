@@ -20,7 +20,7 @@ export function addScore (score) {
 	return scores;
 }
 
-export default function GameClock ({stop, reset, gameTime}) {
+export default function GameClock ({action, gameTime}) {
     const [timePlayed,setTimePlayed]  = useState(0);
     const [token,setToken]            = useState(0);
 
@@ -35,10 +35,10 @@ export default function GameClock ({stop, reset, gameTime}) {
 		gameTime ({timeS : timePlayed});
 	}
 	useEffect(() => {
-		console.log ("useEffect : ", stop, reset);
-		if (stop) {
+		console.log ("useEffect : ", action);
+		if (action === "stop") {
 			stopTimer ();
-		} else if (reset) {
+		} else if (action.match (/^reset/)) { // reset1684323218711 - so that action changes but reset is the value.
 			setTimePlayed ((timePlayed) => 0);
 		} else {
 			const intervalId = setInterval(updateTime, 1000);
@@ -48,10 +48,10 @@ export default function GameClock ({stop, reset, gameTime}) {
 				stopTimer ();
 			}
 		}
-    }, [stop, reset]);
+    }, [action]);
 
 	return (
-		stop ? (
+		action === "stop" ? (
 			<p>Time played : {new Date(timePlayed * 1000).toISOString().slice(11, 19)}</p>
 		) : (
 			<p>Playing : {new Date(timePlayed * 1000).toISOString().slice(11, 19)}</p>
