@@ -9,7 +9,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import {Scores, addScore} from '../components/scores';
+import Scores, {getScores, addScore} from '../components/scores';
 
 const initBoard = [
 	{id : 0,  imgSrc : "/img/card0.png", flipped : false, won : false},
@@ -83,13 +83,8 @@ export default function Game () {
 	const [numClicks, setNumClicks]   = useState (0);
 	const [timePlayed,setTimePlayed]  = useState(0);
 	const [gameTime,setGameTime]      = useState(0);
+	const [stopTimer,setStopTimer]    = useState(false);
 	const numCardsRef                 = useRef();
-
-	// https://stackoverflow.com/questions/63409136/set-countdown-timer-react-js
-	//
-	function updateTime () {
-		setTimePlayed ((timePlayed) => timePlayed + 1)
-	}
 
 	// When all loaded up, then shuffle the cards to avoid a hydration error.
 	// useState (shuffleCards(initBoard.slice()) gave hydration errors.
@@ -100,20 +95,6 @@ export default function Game () {
 		let shuffledBoard = shuffleCards(initBoard.slice(), numCards);
 		setBoard (shuffledBoard);
 	}, [numCards])
-
-	// AKJC HERE : Set the game timer going. This has the effect of making the dropdown reset, doh!
-	// AKJC HERE : Put this in its own component then? How to get the value of the timer from a component?
-	// AKJC HERE : props : Clock ({start, stop }) { ...} maybe? How to read it to get it into a cookie? if (stop) {setCookie; return (<p>...</p>)???
-	// AKJC HERE : Clues perhaps : https://stackoverflow.com/questions/68844258/how-to-start-and-stop-timer-display-in-reactjs
-	// AKJC HERE : https://react.dev/reference/react/useCallback : https://stackoverflow.com/questions/59245140/react-select-always-re-render-even-when-change-another-state
-	// AKJC HERE : https://felixgerschau.com/react-rerender-components/
-	//
-	useEffect(() => {
-		const token = setInterval(updateTime, 1000);
-		return function cleanUp() {
-			clearTimeout(token);
-		}
-	}, [])
 
 	function flipCard (card) {
 		setNumClicks (numClicks + 1);
@@ -260,7 +241,7 @@ export default function Game () {
 		}
 	}
 	function ScoresTable () {
-		let scores = Scores ();
+		let scores = getScores ();
 		let stringJson = JSON.stringify (scores);
 		return (
 			<>
@@ -282,6 +263,7 @@ export default function Game () {
 				gameTime  : gameTime,
 			}
 			addScore (thisGame);
+			setStopTimer ((stopTimer) => true);
 		}
 	}
 	const cardTable = board.map (card => {
@@ -302,15 +284,13 @@ export default function Game () {
 		<Layout>
 			<h1>MemTyles</h1>
 			<ScoresTable />
+			<Scores stop={stopTimer} />
 			<Container fluid>
 				<Row>
 					<Col md={3}>
 						<ClearButton />
 					</Col>
 					<Col md={3}>
-						{wonAllPlay &&  <p>Game time   : {new Date(gameTime   * 1000).toISOString().slice(11, 19)}</p>}
-						{!wonAllPlay && <p>Time Played : {new Date(timePlayed * 1000).toISOString().slice(11, 19)}</p>}
-						<Progress />
 					</Col>
 					<Col md={3}>
 						<SelectNumCards />
