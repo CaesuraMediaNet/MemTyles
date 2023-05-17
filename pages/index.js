@@ -280,7 +280,7 @@ export default function Game () {
 			);
 		} else {
 			return (
-				<p>Select only two cards, click again to turn back over</p>
+				<p>Select only two Tyles, click again to turn back over</p>
 			);
 		}
 	}
@@ -307,7 +307,7 @@ export default function Game () {
 		}
 	}
 	const cardTable = board.map (card => {
-		return <Col key={card.id} xs={6} sm={4} md={2} lg={2}>
+		return <Col key={card.id} xs={6} sm={4} md={2} lg={1}>
 			<Card
 				key={card.id}
 				id={card.id}
@@ -323,7 +323,6 @@ export default function Game () {
 	return (
 		<Layout>
 			<h1>MemTyles</h1>
-			<ScoresTable />
 			<GameClock gameTime={timeGameTook} action={timerAction}  />
 			<Container fluid>
 				<Row>
@@ -344,6 +343,7 @@ export default function Game () {
 					{cardTable}
 				</Row>
 			</Container>
+			<ScoresTable />
 		</Layout>
 	);
 }
