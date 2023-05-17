@@ -9,7 +9,14 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import GameClock, {getScores, addScore} from '../components/scores';
+import Cookies from 'js-cookie';
+import GameClock from '../components/scores';
+
+// Clues : The GameClock sets the timer and when told to stop (in handleClick after calcs have been
+// done to see if game is complete) then calls timeGameTook (via it's gameTime prop). timeGameTook
+// sets this App gameTime (via setGameTime) state for display and storing in a cookie. Scores (in a cookie)
+// and shuffling the pack occur initially in the useEffect hook.
+// More clues TBD.
 
 const initBoard = [
 	{id : 0,  imgSrc : "/img/card0.png", flipped : false, won : false},
@@ -79,10 +86,11 @@ export default function Game () {
 	const [board, setBoard]             = useState (initBoard);
 	const [wonPlay, setWonPlay]         = useState (false);
 	const [wonAllPlay, setWonAllPlay]   = useState (false);
-	const [numCards, setNumCards]       = useState (8);
+	const [numCards, setNumCards]       = useState (4);
 	const [numClicks, setNumClicks]     = useState (0);
 	const [gameTime,setGameTime]        = useState(0);
 	const [timerAction,setTimerAction]  = useState("start");
+	const [scores,setScores]            = useState ([]);
 	const numCardsRef                   = useRef();
 
 	// When all loaded up, then shuffle the cards to avoid a hydration error.
@@ -93,8 +101,12 @@ export default function Game () {
 	useEffect(() => {
 		let shuffledBoard = shuffleCards(initBoard.slice(), numCards);
 		setBoard (shuffledBoard);
+		let currentScores = getScores();
+		setScores ((scores) => currentScores);
 	}, [numCards])
 
+	// AKJC TODO : Put this in a ./functions/ dir. Add board as a param.
+	//
 	function flipCard (card) {
 		setNumClicks (numClicks + 1);
 
@@ -182,7 +194,6 @@ export default function Game () {
 		}
 		return {won : won, wonAll : wonAll};
 	}
-
 	function clearBoard () {
 
 		// .slice() to make a copy of the initBoard rather than a reference which seems to have been used by the state, or something.
@@ -208,9 +219,9 @@ export default function Game () {
 		);
 	}
 	function changeNumCards () {
+		console.log ("changeNumCards called with ", numCardsRef.current.value);
 		setNumCards  (numCardsRef.current.value);
-		setWonPlay   (false);
-		setWonAllPlay(false);
+		clearBoard ();
 	}
 	function SelectNumCards () {
 		return (
@@ -220,7 +231,9 @@ export default function Game () {
 					ref={numCardsRef}
 					onChange={() => changeNumCards ()}
 					aria-label="Select number of Cards"
+					value={numCardsRef?.current?.value || "4"}
 				>
+					<option value="4">4</option>
 					<option value="8">8</option>
 					<option value="12">12</option>
 					<option value="18">18</option>
@@ -230,9 +243,31 @@ export default function Game () {
 			</Form>
 		);
 	}
+	function addScore (score) {
+		let scores = getScores ();
+		scores.push (score);
+		Cookies.set('scores', JSON.stringify (scores));
+		return scores;
+	}
+	function getScores () {
+		let scores = Cookies.get('scores');
+		if (!scores?.length) {
+			scores = [];
+		} else {
+			scores = JSON.parse (scores);
+		}
+		return scores;
+	}
 	function timeGameTook ({timeS}) {
-		console.log ("timeGameTook called with ", timeS);
 		setGameTime ((gameTime) => timeS);
+		let thisGame = {
+			numCards  : numCards,
+			numClicks : numClicks,
+			gameTime  : timeS,
+		}
+		console.log ("Won! Game is ", thisGame);
+		let allScores = addScore (thisGame);
+		setScores (allScores);
 	}
 	function Progress () {
 		if (numClicks > 0 && ! wonAllPlay) {
@@ -250,27 +285,24 @@ export default function Game () {
 		}
 	}
 	function ScoresTable () {
-		let scores = getScores ();
-		let stringJson = JSON.stringify (scores);
 		return (
 			<>
 			<h6>Scores</h6>
-			<p>{stringJson}</p>
+			<ul>
+			{scores.map ((score, index) => 
+				<li key={index}>
+					Cards : {score.numCards} Clicks : {score.numClicks} Time : {score.gameTime}
+				</li>
+			)}
+			</ul>
 			</>
 		);
 	}
-
 	function handleClick (card) {
 		let { won, wonAll } = flipCard (card);
 		if (won)    setWonPlay    (true);
 		if (wonAll) {
 			setWonAllPlay (true);
-			let thisGame = {
-				numCards  : numCards,
-				numClicks : numClicks,
-				gameTime  : gameTime,
-			}
-			addScore (thisGame);
 			setTimerAction ((timerAction) => "stop");
 		}
 	}
