@@ -15,7 +15,40 @@ import Form from 'react-bootstrap/Form';
 
 import Cookies from 'js-cookie';
 import GameClock from '../components/scores';
-import HiddenImages from '../components/HiddenImages';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+	faEnvelope,
+	faRocket,
+	faHippo,
+	faUmbrella,
+	faGift,
+	faLemon,
+	faBrush,
+	faMagicWandSparkles,
+	faBell,
+	faBarcode,
+	faKey,
+	faPaintRoller,
+	faBicycle,
+	faFeather,
+	faBinoculars,
+	faShirt,
+	faCarSide,
+	faMountainSun,
+	faHourglassStart,
+	faStore,
+	faMoon,
+	faHotel,
+	faWrench,
+	faTrophy,
+	faMotorcycle,
+	faRadio,
+	faDragon,
+	faScroll,
+	faPuzzlePiece,
+} from '@fortawesome/free-solid-svg-icons'
+
 
 // Clues : The GameClock sets the timer and when told to stop (in handleClick after calcs have been
 // done to see if game is complete) then calls timeGameTook (via it's gameTime prop). timeGameTook
@@ -24,45 +57,55 @@ import HiddenImages from '../components/HiddenImages';
 // More clues TBD.
 
 const initBoard = [
-	{id : 0,  imgSrc : "/img/card0.png", flipped : false, won : false},
-	{id : 1,  imgSrc : "/img/card1.png", flipped : false, won : false},
-	{id : 2,  imgSrc : "/img/card2.png", flipped : false, won : false},
-	{id : 3,  imgSrc : "/img/card3.png", flipped : false, won : false},
-	{id : 4,  imgSrc : "/img/card4.png", flipped : false, won : false},
-	{id : 5,  imgSrc : "/img/card5.png", flipped : false, won : false},
-	{id : 6,  imgSrc : "/img/card6.png", flipped : false, won : false},
-	{id : 7,  imgSrc : "/img/card7.png", flipped : false, won : false},
-	{id : 8,  imgSrc : "/img/card8.png", flipped : false, won : false},
-	{id : 9,  imgSrc : "/img/card9.png", flipped : false, won : false},
-	{id : 10,  imgSrc : "/img/card10.png", flipped : false, won : false},
-	{id : 11,  imgSrc : "/img/card11.png", flipped : false, won : false},
-	{id : 12,  imgSrc : "/img/card12.png", flipped : false, won : false},
-	{id : 13,  imgSrc : "/img/card13.png", flipped : false, won : false},
-	{id : 14,  imgSrc : "/img/card14.png", flipped : false, won : false},
-	{id : 15,  imgSrc : "/img/card15.png", flipped : false, won : false},
-	{id : 16,  imgSrc : "/img/card16.png", flipped : false, won : false},
-	{id : 17,  imgSrc : "/img/card17.png", flipped : false, won : false},
-	{id : 18,  imgSrc : "/img/card18.png", flipped : false, won : false},
-	{id : 19,  imgSrc : "/img/card19.png", flipped : false, won : false},
-	{id : 20,  imgSrc : "/img/card20.png", flipped : false, won : false},
-	{id : 21,  imgSrc : "/img/card21.png", flipped : false, won : false},
-	{id : 22,  imgSrc : "/img/card22.png", flipped : false, won : false},
-	{id : 23,  imgSrc : "/img/card23.png", flipped : false, won : false},
-	{id : 24,  imgSrc : "/img/card24.png", flipped : false, won : false},
-	{id : 25,  imgSrc : "/img/card25.png", flipped : false, won : false},
+	{id : 0,  icon : faEnvelope,          cardName : "Envelope,",         flipped : false, won : false},
+	{id : 1,  icon : faRocket,            cardName : "Rocket",            flipped : false, won : false},
+	{id : 2,  icon : faHippo,             cardName : "Hippo",             flipped : false, won : false},
+	{id : 3,  icon : faUmbrella,          cardName : "Umbrella",          flipped : false, won : false},
+	{id : 4,  icon : faGift,              cardName : "Gift",              flipped : false, won : false},
+	{id : 5,  icon : faLemon,             cardName : "Lemon",             flipped : false, won : false},
+	{id : 6,  icon : faBrush,             cardName : "Brush",             flipped : false, won : false},
+	{id : 7,  icon : faMagicWandSparkles, cardName : "MagicWandSparkles", flipped : false, won : false},
+	{id : 8,  icon : faBell,              cardName : "Bell",              flipped : false, won : false},
+	{id : 9,  icon : faBarcode,           cardName : "Barcode",           flipped : false, won : false},
+	{id : 10,  icon : faKey,              cardName : "Key",               flipped : false, won : false},
+	{id : 11,  icon : faPaintRoller,      cardName : "PaintRoller",       flipped : false, won : false},
+	{id : 12,  icon : faBicycle,          cardName : "Bicycle",           flipped : false, won : false},
+	{id : 13,  icon : faFeather,          cardName : "Feather",           flipped : false, won : false},
+	{id : 14,  icon : faBinoculars,       cardName : "Binoculars",        flipped : false, won : false},
+	{id : 15,  icon : faShirt,            cardName : "Shirt",             flipped : false, won : false},
+	{id : 16,  icon : faCarSide,          cardName : "CarSide",           flipped : false, won : false},
+	{id : 17,  icon : faMountainSun,      cardName : "MountainSun",       flipped : false, won : false},
+	{id : 18,  icon : faHourglassStart,   cardName : "HourglassStart",    flipped : false, won : false},
+	{id : 19,  icon : faStore,            cardName : "Store",             flipped : false, won : false},
+	{id : 20,  icon : faMoon,             cardName : "Moon",              flipped : false, won : false},
+	{id : 21,  icon : faHotel,            cardName : "Hotel",             flipped : false, won : false},
+	{id : 22,  icon : faWrench,           cardName : "Wrench",            flipped : false, won : false},
+	{id : 23,  icon : faTrophy,           cardName : "Trophy",            flipped : false, won : false},
+	{id : 24,  icon : faMotorcycle,       cardName : "Motorcycle",        flipped : false, won : false},
+	{id : 25,  icon : faRadio,            cardName : "Radio",             flipped : false, won : false},
+	{id : 26,  icon : faDragon,           cardName : "Dragon",            flipped : false, won : false},
+	{id : 27,  icon : faScroll,           cardName : "Scroll,",           flipped : false, won : false},
 ];
 
-function Card ({id, imgSrc, width, height, clicked, flipped, won}) {
+let iconStyle = {
+	width : 50,
+	color:"purple",
+	padding : "5px",
+	height : "100%",
+	width : "100%",
+}
+let blankStyle    = {...iconStyle, color:"grey"};
+let selectedStyle = {...iconStyle, border : "1px solid green", borderRadius : "0.2rem",};
+function Card ({id, icon, width, height, clicked, flipped, won}) {
 	return (
-		<div onClick={clicked} className={flipped ? utilStyles.cardFlipped : utilStyles.cardUnflipped}>
-			<Image
-				className={flipped ? utilStyles.imgUnflipped : utilStyles.imgFlipped}
-				src={flipped ? imgSrc : won ? imgSrc : "/img/back.png" }
-				width={width}
-				height={height}
-                priority={true}
-                alt={"This is Tyle number " + id}
-            />
+		<div style={{width : "100%", height : "100%"}} onClick={clicked} >
+			{flipped ? 
+				<FontAwesomeIcon style={selectedStyle} icon={icon} />
+				: won ?
+				<FontAwesomeIcon style={iconStyle} icon={icon} />
+				:
+				<FontAwesomeIcon style={blankStyle} icon={faPuzzlePiece} />
+			}
 			{won ? <p>Matched!</p> : <p>&nbsp;</p>}
 		</div>
 	);
@@ -106,7 +149,6 @@ export default function Game () {
 	const [gameTime,setGameTime]        = useState(0);
 	const [timerAction,setTimerAction]  = useState("start");
 	const [scores,setScores]            = useState ([]);
-	const [allImagesLoaded,setAllImagesLoaded] = useState (false);
 	const numCardsRef                   = useRef();
 
 	// When all loaded up, then shuffle the cards to avoid a hydration error.
@@ -149,8 +191,6 @@ export default function Game () {
 				}
 			};
 		}
-
-
 		if (!notPoss) {
 
 			// Change the one element to be flipped
@@ -158,12 +198,7 @@ export default function Game () {
 			let newBoard = [];
 			board.forEach (thisCard => {
 				if (thisCard.id === card.id) {
-					newBoard.push ({
-						id      : card.id,
-						imgSrc  : card.imgSrc,
-						flipped : !card.flipped, // toggle the flip - in case it needs unflipping.
-						won     : false,
-					});
+					newBoard.push ({...card, flipped : !card.flipped});
 				} else {
 					newBoard.push ({...thisCard});
 				}
@@ -172,16 +207,16 @@ export default function Game () {
 			// Now see if this flipped card matches any previous one.
 			//
 			let card1, card2;
-			let matches = false;
+			let matches = "";
 			for (let i=0; i < newBoard.length; i++) {
 				let thisCard = newBoard[i];
 				if (thisCard.flipped) {
-					if (matches && matches === thisCard.imgSrc) {
+					if (matches && matches === thisCard.cardName) {
 						won   = true;
 						card2 = thisCard;
 						break;
 					} else {
-						matches = thisCard.imgSrc;
+						matches = thisCard.cardName;
 						card1   = thisCard;
 					}
 				}
@@ -192,8 +227,8 @@ export default function Game () {
 				// on the board in its place. Same as the one with cards, don't move things
 				// about.
 				//
-				newBoard[card1.id] = {id : card1.id,  imgSrc : card1.imgSrc, flipped : false, won : true};
-				newBoard[card2.id] = {id : card2.id,  imgSrc : card2.imgSrc, flipped : false, won : true};
+				newBoard[card1.id] = {...card1, won : true, flipped : false};
+				newBoard[card2.id] = {...card2, won : true, flipped : false};
 			}
 
 			// Check for overall winner, all cards won.
@@ -205,7 +240,6 @@ export default function Game () {
 			if (wonCount === newBoard.length) {
 				wonAll  = true;
 			}
-			console.log ("wonCount, board.length : ", wonCount, newBoard.length);
 			setBoard (newBoard);
 		}
 		return {won : won, wonAll : wonAll};
@@ -235,7 +269,6 @@ export default function Game () {
 		);
 	}
 	function changeNumCards () {
-		console.log ("changeNumCards called with ", numCardsRef.current.value);
 		setNumCards  (numCardsRef.current.value);
 		clearBoard ();
 	}
@@ -281,7 +314,6 @@ export default function Game () {
 			numClicks : numClicks,
 			gameTime  : timeS,
 		}
-		console.log ("Won! Game is ", thisGame);
 		let allScores = addScore (thisGame);
 		setScores (allScores);
 	}
@@ -327,7 +359,7 @@ export default function Game () {
 			<Card
 				key={card.id}
 				id={card.id}
-				imgSrc={card.imgSrc}
+				icon={card.icon}
 				width={100}
 				height={100}
 				clicked={() => handleClick (card)}
@@ -336,46 +368,63 @@ export default function Game () {
 			/>
 		</Col>
 	});
-	function imagesLoaded () {
-		console.log ("All Images loaded now.");
-		setAllImagesLoaded ((allImagesLoaded) => true);
-	}
-	function Loading () {
-		return (
-			<h1>Loading MemTyles Game ... </h1>
-		);
-	}
 	return (
 		<Layout>
-			<HiddenImages initBoard={initBoard} doneLoading={imagesLoaded}/>
+			<div style={{maxWidth : 500, maxHeight : 500}}>
+				{/*
+				<FontAwesomeIcon style={{width : 50, color:"red"}}   icon={faEnvelope} />
+				<FontAwesomeIcon style={{width : 50, color:"green"}} icon={faRocket}   />
+				<FontAwesomeIcon style={{width : 50, color:"grey"}} icon={faHippo}         />
+				<FontAwesomeIcon style={{width : 50, color:"black"}} icon={faUmbrella}         />
+				<FontAwesomeIcon style={{width : 50, color:"blue"}} icon={faGift}         />
+				<FontAwesomeIcon style={{width : 50, color:"yellow"}} icon={faLemon}         />
+				<FontAwesomeIcon style={{width : 50, color:"brown"}} icon={faBrush}         />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faMagicWandSparkles} />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faBell} />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faBarcode} />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faKey} />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faPaintRoller} />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faBicycle} />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faFeather} />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faBinoculars} />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faShirt} />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faCarSide} />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faMountainSun} />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faHourglassStart} />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faStore} />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faMoon} />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faHotel} />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faWrench} />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faTrophy} />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faMotorcycle} />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faRadio} />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faDragon} />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faScroll} />
+				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faPuzzlePiece} />
+				*/}
+			</div>
 			<h1>MemTyles</h1>
-			{allImagesLoaded ? (
-				<>
-				<GameClock gameTime={timeGameTook} action={timerAction}  />
-				<Container fluid>
-					<Row>
-						<Col md={3}>
-							<ClearButton />
-						</Col>
-						<Col md={3}>
-							<Progress />
-						</Col>
-						<Col md={3}>
-							<SelectNumCards />
-						</Col>
-						<Col md={3}>
-							{wonAllPlay && <h5>You&#39;ve won the Game!</h5>}
-						</Col>
-					</Row>
-					<Row>
-						{cardTable}
-					</Row>
-				</Container>
-				<ScoresTable />
-				</>
-			) : (
-				<Loading />
-			)}
+			<GameClock gameTime={timeGameTook} action={timerAction}  />
+			<Container fluid>
+				<Row>
+					<Col md={3}>
+						<ClearButton />
+					</Col>
+					<Col md={3}>
+						<Progress />
+					</Col>
+					<Col md={3}>
+						<SelectNumCards />
+					</Col>
+					<Col md={3}>
+						{wonAllPlay && <h5>You&#39;ve won the Game!</h5>}
+					</Col>
+				</Row>
+				<Row>
+					{cardTable}
+				</Row>
+			</Container>
+			<ScoresTable />
 		</Layout>
 	);
 }
