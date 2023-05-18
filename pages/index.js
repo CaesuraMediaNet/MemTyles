@@ -1,16 +1,21 @@
 import Head from 'next/head';
+import Image from 'next/image';
+
 import Layout, { siteTitle } from '../components/layout';
 import utilStyles from '../styles/utils.module.css';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useRef } from 'react';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+
 import Cookies from 'js-cookie';
 import GameClock from '../components/scores';
+import HiddenImages from '../components/HiddenImages';
 
 // Clues : The GameClock sets the timer and when told to stop (in handleClick after calcs have been
 // done to see if game is complete) then calls timeGameTook (via it's gameTime prop). timeGameTook
@@ -36,6 +41,15 @@ const initBoard = [
 	{id : 14,  imgSrc : "/img/card14.png", flipped : false, won : false},
 	{id : 15,  imgSrc : "/img/card15.png", flipped : false, won : false},
 	{id : 16,  imgSrc : "/img/card16.png", flipped : false, won : false},
+	{id : 17,  imgSrc : "/img/card17.png", flipped : false, won : false},
+	{id : 18,  imgSrc : "/img/card18.png", flipped : false, won : false},
+	{id : 19,  imgSrc : "/img/card19.png", flipped : false, won : false},
+	{id : 20,  imgSrc : "/img/card20.png", flipped : false, won : false},
+	{id : 21,  imgSrc : "/img/card21.png", flipped : false, won : false},
+	{id : 22,  imgSrc : "/img/card22.png", flipped : false, won : false},
+	{id : 23,  imgSrc : "/img/card23.png", flipped : false, won : false},
+	{id : 24,  imgSrc : "/img/card24.png", flipped : false, won : false},
+	{id : 25,  imgSrc : "/img/card25.png", flipped : false, won : false},
 ];
 
 function Card ({id, imgSrc, width, height, clicked, flipped, won}) {
@@ -57,6 +71,7 @@ function Card ({id, imgSrc, width, height, clicked, flipped, won}) {
 // Shuffle the whole thing first then set the ids.
 // https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
 // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+// AKJC TODO : Randomise the cards first, then double up, then random again.
 //
 function shuffleCards (cards, numCards) {
   let selectedCards = cards.slice (0, parseInt (numCards / 2));
@@ -74,7 +89,7 @@ function shuffleCards (cards, numCards) {
     // And swap it with the current element.
     [doubledUp[currentIndex], doubledUp[randomIndex]] = [doubledUp[randomIndex], doubledUp[currentIndex]];
   }
-  // Ids in order. A for (let i ...) loop setting doubledUp[i].id = i does not work well.
+  // Ids in order. A for (let i ...) loop setting doubledUp[i].id = i does not work.
   // https://stackoverflow.com/questions/39827087/add-key-value-pair-to-all-objects-in-array
   //
   let indexedCards = doubledUp.map((card, index) => ({...card, id : index}));
@@ -91,6 +106,7 @@ export default function Game () {
 	const [gameTime,setGameTime]        = useState(0);
 	const [timerAction,setTimerAction]  = useState("start");
 	const [scores,setScores]            = useState ([]);
+	const [allImagesLoaded,setAllImagesLoaded] = useState (false);
 	const numCardsRef                   = useRef();
 
 	// When all loaded up, then shuffle the cards to avoid a hydration error.
@@ -320,30 +336,46 @@ export default function Game () {
 			/>
 		</Col>
 	});
+	function imagesLoaded () {
+		console.log ("All Images loaded now.");
+		setAllImagesLoaded ((allImagesLoaded) => true);
+	}
+	function Loading () {
+		return (
+			<h1>Loading MemTyles Game ... </h1>
+		);
+	}
 	return (
 		<Layout>
+			<HiddenImages initBoard={initBoard} doneLoading={imagesLoaded}/>
 			<h1>MemTyles</h1>
-			<GameClock gameTime={timeGameTook} action={timerAction}  />
-			<Container fluid>
-				<Row>
-					<Col md={3}>
-						<ClearButton />
-					</Col>
-					<Col md={3}>
-						<Progress />
-					</Col>
-					<Col md={3}>
-						<SelectNumCards />
-					</Col>
-					<Col md={3}>
-						{wonAllPlay && <h5>You&#39;ve won the Game!</h5>}
-					</Col>
-				</Row>
-				<Row>
-					{cardTable}
-				</Row>
-			</Container>
-			<ScoresTable />
+			{allImagesLoaded ? (
+				<>
+				<GameClock gameTime={timeGameTook} action={timerAction}  />
+				<Container fluid>
+					<Row>
+						<Col md={3}>
+							<ClearButton />
+						</Col>
+						<Col md={3}>
+							<Progress />
+						</Col>
+						<Col md={3}>
+							<SelectNumCards />
+						</Col>
+						<Col md={3}>
+							{wonAllPlay && <h5>You&#39;ve won the Game!</h5>}
+						</Col>
+					</Row>
+					<Row>
+						{cardTable}
+					</Row>
+				</Container>
+				<ScoresTable />
+				</>
+			) : (
+				<Loading />
+			)}
 		</Layout>
 	);
 }
