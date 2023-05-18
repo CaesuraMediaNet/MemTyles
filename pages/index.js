@@ -23,66 +23,39 @@ import HiddenImages from '../components/HiddenImages';
 // and shuffling the pack occur initially in the useEffect hook.
 // More clues TBD.
 
-import img0 from "../public/img/card0.png";
-import img1 from "../public/img/card1.png";
-import img2 from "../public/img/card2.png";
-import img3 from "../public/img/card3.png";
-import img4 from "../public/img/card4.png";
-import img5 from "../public/img/card5.png";
-import img6 from "../public/img/card6.png";
-import img7 from "../public/img/card7.png";
-import img8 from "../public/img/card8.png";
-import img9 from "../public/img/card9.png";
-import img10 from "../public/img/card10.png";
-import img11 from "../public/img/card11.png";
-import img12 from "../public/img/card12.png";
-import img13 from "../public/img/card13.png";
-import img14 from "../public/img/card14.png";
-import img15 from "../public/img/card15.png";
-import img16 from "../public/img/card16.png";
-import img17 from "../public/img/card17.png";
-import img18 from "../public/img/card18.png";
-import img19 from "../public/img/card19.png";
-import img20 from "../public/img/card20.png";
-import img21 from "../public/img/card21.png";
-import img22 from "../public/img/card22.png";
-import img23 from "../public/img/card23.png";
-import img24 from "../public/img/card24.png";
-import img25 from "../public/img/card25.png";
 const initBoard = [
-	{id : 0,   imgSrc : img0, flipped : false, won : false},
-	{id : 1,   imgSrc : img1, flipped : false, won : false},
-	{id : 2,   imgSrc : img2, flipped : false, won : false},
-	{id : 3,   imgSrc : img3, flipped : false, won : false},
-	{id : 4,   imgSrc : img4, flipped : false, won : false},
-	{id : 5,   imgSrc : img5, flipped : false, won : false},
-	{id : 6,   imgSrc : img6, flipped : false, won : false},
-	{id : 7,   imgSrc : img7, flipped : false, won : false},
-	{id : 8,   imgSrc : img8, flipped : false, won : false},
-	{id : 9,   imgSrc : img9, flipped : false, won : false},
-	{id : 10,  imgSrc : img10, flipped : false, won : false},
-	{id : 11,  imgSrc : img11, flipped : false, won : false},
-	{id : 12,  imgSrc : img12, flipped : false, won : false},
-	{id : 13,  imgSrc : img13, flipped : false, won : false},
-	{id : 14,  imgSrc : img14, flipped : false, won : false},
-	{id : 15,  imgSrc : img15, flipped : false, won : false},
-	{id : 16,  imgSrc : img16, flipped : false, won : false},
-	{id : 17,  imgSrc : img17, flipped : false, won : false},
-	{id : 18,  imgSrc : img18, flipped : false, won : false},
-	{id : 19,  imgSrc : img19, flipped : false, won : false},
-	{id : 20,  imgSrc : img20, flipped : false, won : false},
-	{id : 21,  imgSrc : img21, flipped : false, won : false},
-	{id : 22,  imgSrc : img22, flipped : false, won : false},
-	{id : 23,  imgSrc : img23, flipped : false, won : false},
-	{id : 24,  imgSrc : img24, flipped : false, won : false},
-	{id : 25,  imgSrc : img25, flipped : false, won : false},
+	{id : 0,  imgSrc : "/img/card0.png", flipped : false, won : false},
+	{id : 1,  imgSrc : "/img/card1.png", flipped : false, won : false},
+	{id : 2,  imgSrc : "/img/card2.png", flipped : false, won : false},
+	{id : 3,  imgSrc : "/img/card3.png", flipped : false, won : false},
+	{id : 4,  imgSrc : "/img/card4.png", flipped : false, won : false},
+	{id : 5,  imgSrc : "/img/card5.png", flipped : false, won : false},
+	{id : 6,  imgSrc : "/img/card6.png", flipped : false, won : false},
+	{id : 7,  imgSrc : "/img/card7.png", flipped : false, won : false},
+	{id : 8,  imgSrc : "/img/card8.png", flipped : false, won : false},
+	{id : 9,  imgSrc : "/img/card9.png", flipped : false, won : false},
+	{id : 10,  imgSrc : "/img/card10.png", flipped : false, won : false},
+	{id : 11,  imgSrc : "/img/card11.png", flipped : false, won : false},
+	{id : 12,  imgSrc : "/img/card12.png", flipped : false, won : false},
+	{id : 13,  imgSrc : "/img/card13.png", flipped : false, won : false},
+	{id : 14,  imgSrc : "/img/card14.png", flipped : false, won : false},
+	{id : 15,  imgSrc : "/img/card15.png", flipped : false, won : false},
+	{id : 16,  imgSrc : "/img/card16.png", flipped : false, won : false},
+	{id : 17,  imgSrc : "/img/card17.png", flipped : false, won : false},
+	{id : 18,  imgSrc : "/img/card18.png", flipped : false, won : false},
+	{id : 19,  imgSrc : "/img/card19.png", flipped : false, won : false},
+	{id : 20,  imgSrc : "/img/card20.png", flipped : false, won : false},
+	{id : 21,  imgSrc : "/img/card21.png", flipped : false, won : false},
+	{id : 22,  imgSrc : "/img/card22.png", flipped : false, won : false},
+	{id : 23,  imgSrc : "/img/card23.png", flipped : false, won : false},
+	{id : 24,  imgSrc : "/img/card24.png", flipped : false, won : false},
+	{id : 25,  imgSrc : "/img/card25.png", flipped : false, won : false},
 ];
 
 function Card ({id, imgSrc, width, height, clicked, flipped, won}) {
 	return (
 		<div onClick={clicked} className={flipped ? utilStyles.cardFlipped : utilStyles.cardUnflipped}>
 			<Image
-				key={id}
 				className={flipped ? utilStyles.imgUnflipped : utilStyles.imgFlipped}
 				src={flipped ? imgSrc : won ? imgSrc : "/img/back.png" }
 				width={width}
@@ -133,6 +106,7 @@ export default function Game () {
 	const [gameTime,setGameTime]        = useState(0);
 	const [timerAction,setTimerAction]  = useState("start");
 	const [scores,setScores]            = useState ([]);
+	const [allImagesLoaded,setAllImagesLoaded] = useState (false);
 	const numCardsRef                   = useRef();
 
 	// When all loaded up, then shuffle the cards to avoid a hydration error.
@@ -362,6 +336,10 @@ export default function Game () {
 			/>
 		</Col>
 	});
+	function imagesLoaded () {
+		console.log ("All Images loaded now.");
+		setAllImagesLoaded ((allImagesLoaded) => true);
+	}
 	function Loading () {
 		return (
 			<h1>Loading MemTyles Game ... </h1>
@@ -369,28 +347,35 @@ export default function Game () {
 	}
 	return (
 		<Layout>
+			<HiddenImages initBoard={initBoard} doneLoading={imagesLoaded}/>
 			<h1>MemTyles</h1>
-			<GameClock gameTime={timeGameTook} action={timerAction}  />
-			<Container fluid>
-				<Row>
-					<Col md={3}>
-						<ClearButton />
-					</Col>
-					<Col md={3}>
-						<Progress />
-					</Col>
-					<Col md={3}>
-						<SelectNumCards />
-					</Col>
-					<Col md={3}>
-						{wonAllPlay && <h5>You&#39;ve won the Game!</h5>}
-					</Col>
-				</Row>
-				<Row>
-					{cardTable}
-				</Row>
-			</Container>
-			<ScoresTable />
+			{allImagesLoaded ? (
+				<>
+				<GameClock gameTime={timeGameTook} action={timerAction}  />
+				<Container fluid>
+					<Row>
+						<Col md={3}>
+							<ClearButton />
+						</Col>
+						<Col md={3}>
+							<Progress />
+						</Col>
+						<Col md={3}>
+							<SelectNumCards />
+						</Col>
+						<Col md={3}>
+							{wonAllPlay && <h5>You&#39;ve won the Game!</h5>}
+						</Col>
+					</Row>
+					<Row>
+						{cardTable}
+					</Row>
+				</Container>
+				<ScoresTable />
+				</>
+			) : (
+				<Loading />
+			)}
 		</Layout>
 	);
 }
