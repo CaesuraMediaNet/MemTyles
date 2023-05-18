@@ -49,6 +49,37 @@ import {
 	faPuzzlePiece,
 } from '@fortawesome/free-solid-svg-icons'
 
+const colours = [
+	"#622569",
+	"#d96459",
+	"#e06377",
+	"#667292",
+	"#87bdd8",
+	"#c1502e",
+	"#4f3222",
+	"#77a8a8",
+	"#3b3a30",
+	"#4040a1",
+	"#36486b",
+	"#50394c",
+	"#034f84",
+	"#b1cbbb",
+	"#405d27",
+	"#3e4444",
+	"#eca1a6",
+	"#d64161",
+	"#6b5b95",
+	"#c83349",
+	"#563f46",
+	"#8000FF",
+	"#FF0080",
+	"#C21460",
+	"#66B032",
+	"#347C98",
+	"#4424D6",
+	"#FC600A",
+];
+
 
 // Clues : The GameClock sets the timer and when told to stop (in handleClick after calcs have been
 // done to see if game is complete) then calls timeGameTook (via it's gameTime prop). timeGameTook
@@ -87,25 +118,25 @@ const initBoard = [
 	{id : 27,  icon : faScroll,           cardName : "Scroll,",           flipped : false, won : false},
 ];
 
-let iconStyle = {
-	width : 50,
-	color:"purple",
-	padding : "5px",
-	height : "100%",
-	width : "100%",
-}
-let blankStyle    = {...iconStyle, color:"grey"};
-let selectedStyle = {...iconStyle, border : "1px solid green", borderRadius : "0.2rem",};
-let wonStyle      = {...iconStyle, opacity : 0.7};
-function Card ({id, icon, width, height, clicked, flipped, won}) {
+function Card ({id, icon, width, height, clicked, flipped, won, colour}) {
+	let iconStyle = {
+		width : 50,
+		color:colour,
+		padding : "5px",
+		height : "100%",
+		width : "100%",
+	}
+	let blankStyle    = {...iconStyle, color:"dimgray"};
+	let selectedStyle = {...iconStyle, border : "1px solid green", borderRadius : "0.2rem",};
+	let wonStyle      = {...iconStyle, opacity : 0.6};
 	return (
 		<div style={{width : "100%", height : "100%"}} onClick={clicked} >
 			{flipped ? 
 				<FontAwesomeIcon style={selectedStyle} icon={icon} />
 				: won ?
-				<FontAwesomeIcon style={wonStyle} icon={icon} />
+				<FontAwesomeIcon style={wonStyle}      icon={icon} />
 				:
-				<FontAwesomeIcon style={blankStyle} icon={faPuzzlePiece} />
+				<FontAwesomeIcon style={blankStyle}    icon={faPuzzlePiece} />
 			}
 		</div>
 	);
@@ -119,6 +150,15 @@ function Card ({id, icon, width, height, clicked, flipped, won}) {
 //
 function shuffleCards (cards, numCards) {
   let selectedCards = cards.slice (0, parseInt (numCards / 2));
+
+  // Add a random colour to the first list.
+  //
+  let randomColours = [];
+  selectedCards.forEach (card => {
+	  let colour        = colours[Math.floor(Math.random() * (colours.length - 1))];
+	  randomColours.push (colour);
+  });
+  selectedCards     = selectedCards.map((card, index) => ({...card, colour : randomColours[index]}));
   let doubledUp     = [...selectedCards, ...selectedCards];
   let currentIndex = doubledUp.length,  randomIndex;
 
@@ -136,6 +176,8 @@ function shuffleCards (cards, numCards) {
   // https://stackoverflow.com/questions/39827087/add-key-value-pair-to-all-objects-in-array
   //
   let indexedCards = doubledUp.map((card, index) => ({...card, id : index}));
+  console.log ("indexedCards is ", indexedCards);
+
   return indexedCards;
 }
 
@@ -365,6 +407,7 @@ export default function Game () {
 				clicked={() => handleClick (card)}
 				flipped={card.flipped}
 				won={card.won}
+				colour={card.colour}
 			/>
 		</Col>
 	});
