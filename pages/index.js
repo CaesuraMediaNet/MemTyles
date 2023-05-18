@@ -96,17 +96,17 @@ let iconStyle = {
 }
 let blankStyle    = {...iconStyle, color:"grey"};
 let selectedStyle = {...iconStyle, border : "1px solid green", borderRadius : "0.2rem",};
+let wonStyle      = {...iconStyle, opacity : 0.7};
 function Card ({id, icon, width, height, clicked, flipped, won}) {
 	return (
 		<div style={{width : "100%", height : "100%"}} onClick={clicked} >
 			{flipped ? 
 				<FontAwesomeIcon style={selectedStyle} icon={icon} />
 				: won ?
-				<FontAwesomeIcon style={iconStyle} icon={icon} />
+				<FontAwesomeIcon style={wonStyle} icon={icon} />
 				:
 				<FontAwesomeIcon style={blankStyle} icon={faPuzzlePiece} />
 			}
-			{won ? <p>Matched!</p> : <p>&nbsp;</p>}
 		</div>
 	);
 }
