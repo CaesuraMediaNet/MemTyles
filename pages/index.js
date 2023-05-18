@@ -24,32 +24,32 @@ import HiddenImages from '../components/HiddenImages';
 // More clues TBD.
 
 const initBoard = [
-	{id : 0,  imgSrc : "/img/card0.png", flipped : false, won : false},
-	{id : 1,  imgSrc : "/img/card1.png", flipped : false, won : false},
-	{id : 2,  imgSrc : "/img/card2.png", flipped : false, won : false},
-	{id : 3,  imgSrc : "/img/card3.png", flipped : false, won : false},
-	{id : 4,  imgSrc : "/img/card4.png", flipped : false, won : false},
-	{id : 5,  imgSrc : "/img/card5.png", flipped : false, won : false},
-	{id : 6,  imgSrc : "/img/card6.png", flipped : false, won : false},
-	{id : 7,  imgSrc : "/img/card7.png", flipped : false, won : false},
-	{id : 8,  imgSrc : "/img/card8.png", flipped : false, won : false},
-	{id : 9,  imgSrc : "/img/card9.png", flipped : false, won : false},
-	{id : 10,  imgSrc : "/img/card10.png", flipped : false, won : false},
-	{id : 11,  imgSrc : "/img/card11.png", flipped : false, won : false},
-	{id : 12,  imgSrc : "/img/card12.png", flipped : false, won : false},
-	{id : 13,  imgSrc : "/img/card13.png", flipped : false, won : false},
-	{id : 14,  imgSrc : "/img/card14.png", flipped : false, won : false},
-	{id : 15,  imgSrc : "/img/card15.png", flipped : false, won : false},
-	{id : 16,  imgSrc : "/img/card16.png", flipped : false, won : false},
-	{id : 17,  imgSrc : "/img/card17.png", flipped : false, won : false},
-	{id : 18,  imgSrc : "/img/card18.png", flipped : false, won : false},
-	{id : 19,  imgSrc : "/img/card19.png", flipped : false, won : false},
-	{id : 20,  imgSrc : "/img/card20.png", flipped : false, won : false},
-	{id : 21,  imgSrc : "/img/card21.png", flipped : false, won : false},
-	{id : 22,  imgSrc : "/img/card22.png", flipped : false, won : false},
-	{id : 23,  imgSrc : "/img/card23.png", flipped : false, won : false},
-	{id : 24,  imgSrc : "/img/card24.png", flipped : false, won : false},
-	{id : 25,  imgSrc : "/img/card25.png", flipped : false, won : false},
+	{id : 0,  imgSrc : "/img/card0.png", flipped : true, won : false},
+	{id : 1,  imgSrc : "/img/card1.png", flipped : true, won : false},
+	{id : 2,  imgSrc : "/img/card2.png", flipped : true, won : false},
+	{id : 3,  imgSrc : "/img/card3.png", flipped : true, won : false},
+	{id : 4,  imgSrc : "/img/card4.png", flipped : true, won : false},
+	{id : 5,  imgSrc : "/img/card5.png", flipped : true, won : false},
+	{id : 6,  imgSrc : "/img/card6.png", flipped : true, won : false},
+	{id : 7,  imgSrc : "/img/card7.png", flipped : true, won : false},
+	{id : 8,  imgSrc : "/img/card8.png", flipped : true, won : false},
+	{id : 9,  imgSrc : "/img/card9.png", flipped : true, won : false},
+	{id : 10,  imgSrc : "/img/card10.png", flipped : true, won : false},
+	{id : 11,  imgSrc : "/img/card11.png", flipped : true, won : false},
+	{id : 12,  imgSrc : "/img/card12.png", flipped : true, won : false},
+	{id : 13,  imgSrc : "/img/card13.png", flipped : true, won : false},
+	{id : 14,  imgSrc : "/img/card14.png", flipped : true, won : false},
+	{id : 15,  imgSrc : "/img/card15.png", flipped : true, won : false},
+	{id : 16,  imgSrc : "/img/card16.png", flipped : true, won : false},
+	{id : 17,  imgSrc : "/img/card17.png", flipped : true, won : false},
+	{id : 18,  imgSrc : "/img/card18.png", flipped : true, won : false},
+	{id : 19,  imgSrc : "/img/card19.png", flipped : true, won : false},
+	{id : 20,  imgSrc : "/img/card20.png", flipped : true, won : false},
+	{id : 21,  imgSrc : "/img/card21.png", flipped : true, won : false},
+	{id : 22,  imgSrc : "/img/card22.png", flipped : true, won : false},
+	{id : 23,  imgSrc : "/img/card23.png", flipped : true, won : false},
+	{id : 24,  imgSrc : "/img/card24.png", flipped : true, won : false},
+	{id : 25,  imgSrc : "/img/card25.png", flipped : true, won : false},
 ];
 
 function Card ({id, imgSrc, width, height, clicked, flipped, won}) {
@@ -83,8 +83,8 @@ function Card ({id, imgSrc, width, height, clicked, flipped, won}) {
 // AKJC TODO : Randomise the cards first, then double up, then random again.
 //
 function shuffleCards (cards, numCards) {
-  let selectedCards = cards.slice (0, parseInt (numCards / 2));
-  console.log ("selectedCards : ", selectedCards, numCards);
+  let fliipedCards  = cards.map((card, index) => ({...card,flipped : false}));
+  let selectedCards = fliipedCards.slice (0, parseInt (numCards / 2));
   let doubledUp     = [...selectedCards, ...selectedCards];
   let currentIndex = doubledUp.length,  randomIndex;
 
@@ -115,7 +115,7 @@ export default function Game () {
 	const [gameTime,setGameTime]        = useState(0);
 	const [timerAction,setTimerAction]  = useState("start");
 	const [scores,setScores]            = useState ([]);
-	const [allImagesLoaded,setAllImagesLoaded] = useState (false);
+	const [allImagesLoaded,setAllImagesLoaded] = useState (true);
 	const numCardsRef                   = useRef();
 
 	// When all loaded up, then shuffle the cards to avoid a hydration error.
@@ -356,7 +356,7 @@ export default function Game () {
 	}
 	return (
 		<Layout>
-			<HiddenImages initBoard={initBoard} doneLoading={imagesLoaded}/>
+			{/*<HiddenImages initBoard={initBoard} doneLoading={imagesLoaded}/> */}
 			<h1>MemTyles</h1>
 			{allImagesLoaded ? (
 				<>
