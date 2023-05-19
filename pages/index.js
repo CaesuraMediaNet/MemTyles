@@ -118,7 +118,7 @@ const initBoard = [
 	{id : 27,  icon : faScroll,           cardName : "Scroll,",           flipped : false, won : false},
 ];
 
-function Card ({id, icon, width, height, clicked, flipped, won, colour}) {
+function Card ({id, icon, width, height, clicked, flipped, won, colour, cardName}) {
 	let iconStyle = {
 		width : 50,
 		color:colour,
@@ -126,9 +126,13 @@ function Card ({id, icon, width, height, clicked, flipped, won, colour}) {
 		height : "100%",
 		width : "100%",
 	}
-	let blankStyle    = {...iconStyle, color:"dimgray"};
-	let selectedStyle = {...iconStyle, border : "1px solid green", borderRadius : "0.2rem",};
-	let wonStyle      = {...iconStyle, opacity : 0.6};
+	let blankStyle         = {...iconStyle, color:"dimgray"};
+	let selectedStyle      = {...iconStyle, border : "1px solid green", borderRadius : "0.2rem",};
+	let wonStyle           = {...iconStyle, opacity : 0.6};
+	let reduceBigIconStyle = {...iconStyle, width : "75%"}; // Some icons are bigger than others moving the page about.
+	if (cardName.match (/Brush|Lemon|Bell/i)) {
+		selectedStyle = reduceBigIconStyle;
+	}
 	return (
 		<div style={{width : "100%", height : "100%"}} onClick={clicked} >
 			{flipped ? 
@@ -407,6 +411,7 @@ export default function Game () {
 				flipped={card.flipped}
 				won={card.won}
 				colour={card.colour}
+				cardName={card.cardName}
 			/>
 		</Col>
 	});
