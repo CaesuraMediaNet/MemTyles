@@ -408,7 +408,6 @@ export default function Game () {
 	}
 	const cardTable = board.map (card => {
 		let width = "25%";
-		console.log ("cardTable numCards : ", numCards);
 		if (numCards == 12) {
 		}
 		if (numCards == 16) {
@@ -426,7 +425,7 @@ export default function Game () {
 			width = "12.5%";
 		}
 		return (
-			<div key={card.id} style={{ padding : "10px", width : width }}>
+			<div key={card.id} style={{ width : width }}>
 				<Card 
 					key={card.id}
 					id={card.id}
@@ -470,7 +469,7 @@ export default function Game () {
 							{wonAllPlay && <h5>You&#39;ve won the Game!</h5>}
 						</Col>
 					</Row>
-					<div style={{ width : "75%"}} >
+					<div style={{ width : "95%"}} >
 						<MtRow>
 							{cardTable}
 						</MtRow>
