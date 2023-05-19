@@ -44,7 +44,7 @@ export default function Layout({ children, home }) {
 		<meta name="twitter:description"  content="MemTyles : A memory game where you match all pairs of Tyles." />
 		<meta name="twitter:image"        content="https://memtyles.vercel.app/img/memtyles-logo.png" />
 
-		<meta property="og:url"              content="https://andykjcragg.co.uk" />
+		<meta property="og:url"              content="https://memtyles.vercel.app/" />
 		<meta property="og:title"            content="MemTyles" />
 		<meta property="og:description"      content="MemTyles : A memory game where you match all pairs of Tyles." />
 		<meta property="og:type"             content="website" />
