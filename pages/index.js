@@ -359,6 +359,10 @@ export default function Game () {
 		}
 		return scores;
 	}
+	function clearScores () {
+		Cookies.set('scores', JSON.stringify ([]));
+		setScores (scores => []);
+	}
 	function timeGameTook ({timeS}) {
 		setGameTime ((gameTime) => timeS);
 		let thisGame = {
@@ -387,13 +391,19 @@ export default function Game () {
 	function ScoresTable () {
 		return (
 			<>
-			<h6>Scores</h6>
-			<ul>
+			<ul style={{textAlign : "left", marginTop : "10px"}}>
+			<h5>Past Scores</h5>
 			{scores.map ((score, index) => 
 				<li key={index}>
 					Cards : {score.numCards} Clicks : {score.numClicks} Time : {score.gameTime}
 				</li>
 			)}
+			<button
+				className={utilStyles.button}
+				 onClick={clearScores}
+			>
+				Clear Scores
+			</button>
 			</ul>
 			</>
 		);
@@ -444,7 +454,7 @@ export default function Game () {
 	return (
 		<Layout>
 			<Container fluid>
-				<BsCard style={{display:"flex",alignItems:"center"}}>
+				<BsCard style={{display:"flex",alignItems:"center", paddingBottom:"3rem"}}>
 					<h1>MemTyles</h1>
 					<Row>
 						<Col md={12}>
@@ -476,8 +486,8 @@ export default function Game () {
 					</div>
 				</BsCard>
 			</Container>
-			<ScoresTable />
-			 {wonAllPlay && <WonModal numClicks={numClicks} gameTime={gameTime} numTyles={numCards} />}
+			{scores.length > 0 && <ScoresTable />}
+			{wonAllPlay && <WonModal numClicks={numClicks} gameTime={gameTime} numTyles={numCards} />}
 		</Layout>
 	);
 }
