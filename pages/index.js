@@ -12,9 +12,11 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import BsCard from 'react-bootstrap/Card';
 
 import Cookies from 'js-cookie';
 import GameClock from '../components/scores';
+import WonModal from '../components/WonModal';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -129,8 +131,11 @@ function Card ({id, icon, width, height, clicked, flipped, won, colour, cardName
 	let blankStyle         = {...iconStyle, color:"dimgray"};
 	let selectedStyle      = {...iconStyle, border : "1px solid green", borderRadius : "0.2rem",};
 	let wonStyle           = {...iconStyle, opacity : 0.6};
-	let reduceBigIconStyle = {...iconStyle, width : "75%"}; // Some icons are bigger than others moving the page about.
-	if (cardName.match (/Brush|Lemon|Bell/i)) {
+
+	// Some icons are bigger than others moving the page about.
+	//
+	let reduceBigIconStyle = {...selectedStyle, width : "75%"};
+	if (cardName.match (/Moon|Brush|Lemon|Bell|HourglassStart/i)) {
 		selectedStyle = reduceBigIconStyle;
 	}
 	return (
@@ -328,11 +333,12 @@ export default function Game () {
 					value={numCardsRef?.current?.value || "4"}
 				>
 					<option value="4">4</option>
-					<option value="8">8</option>
 					<option value="12">12</option>
-					<option value="18">18</option>
-					<option value="24">24</option>
+					<option value="16">16</option>
+					<option value="20">20</option>
 					<option value="36">36</option>
+					<option value="42">42</option>
+					<option value="56">56</option>
 				</Form.Select>
 			</Form>
 		);
@@ -417,61 +423,39 @@ export default function Game () {
 	});
 	return (
 		<Layout>
-			<div style={{maxWidth : 500, maxHeight : 500}}>
-				{/*
-				<FontAwesomeIcon style={{width : 50, color:"red"}}   icon={faEnvelope} />
-				<FontAwesomeIcon style={{width : 50, color:"green"}} icon={faRocket}   />
-				<FontAwesomeIcon style={{width : 50, color:"grey"}} icon={faHippo}         />
-				<FontAwesomeIcon style={{width : 50, color:"black"}} icon={faUmbrella}         />
-				<FontAwesomeIcon style={{width : 50, color:"blue"}} icon={faGift}         />
-				<FontAwesomeIcon style={{width : 50, color:"yellow"}} icon={faLemon}         />
-				<FontAwesomeIcon style={{width : 50, color:"brown"}} icon={faBrush}         />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faMagicWandSparkles} />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faBell} />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faBarcode} />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faKey} />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faPaintRoller} />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faBicycle} />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faFeather} />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faBinoculars} />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faShirt} />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faCarSide} />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faMountainSun} />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faHourglassStart} />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faStore} />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faMoon} />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faHotel} />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faWrench} />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faTrophy} />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faMotorcycle} />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faRadio} />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faDragon} />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faScroll} />
-				<FontAwesomeIcon style={{width : 50, color:"purple"}} icon={faPuzzlePiece} />
-				*/}
-			</div>
-			<h1>MemTyles</h1>
-			<GameClock gameTime={timeGameTook} action={timerAction}  />
 			<Container fluid>
-				<Row>
-					<Col md={3}>
-						<ClearButton />
-					</Col>
-					<Col md={3}>
-						<Progress />
-					</Col>
-					<Col md={3}>
-						<SelectNumCards />
-					</Col>
-					<Col md={3}>
-						{wonAllPlay && <h5>You&#39;ve won the Game!</h5>}
-					</Col>
-				</Row>
-				<Row>
-					{cardTable}
-				</Row>
+				<BsCard>
+					<h1>MemTyles</h1>
+					<Row>
+						<Col md={12}>
+							<Row>
+								<Col md={5}>
+								</Col>
+								<Col md={2}>
+									<SelectNumCards />
+								</Col>
+								<Col md={5}>
+								</Col>
+							</Row>
+						</Col>
+						<Col md={12}>
+							<ClearButton />
+						</Col>
+						<Col md={12}>
+							<Progress />
+							<GameClock gameTime={timeGameTook} action={timerAction}  />
+						</Col>
+						<Col md={12}>
+							{wonAllPlay && <h5>You&#39;ve won the Game!</h5>}
+						</Col>
+					</Row>
+					<Row>
+						{cardTable}
+					</Row>
+				</BsCard>
 			</Container>
 			<ScoresTable />
+			 {wonAllPlay && <WonModal numClicks={numClicks} gameTime={gameTime} numTyles={numCards} />}
 		</Layout>
 	);
 }
