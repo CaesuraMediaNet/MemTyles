@@ -17,7 +17,7 @@ export default function Layout({ children, home }) {
   return (
     <div className={[styles.container, memTylesFont.className].join (' ')}>
       <Head>
-		<meta charset="utf-8" />
+		<meta charSet="utf-8" />
 		<meta name="format-detection"      content="telephone=yes" />
 		<meta name="format-detection"      content="date=yes" />
 		<meta name="format-detection"      content="address=yes" />
@@ -27,7 +27,7 @@ export default function Layout({ children, home }) {
 		<meta name="keywords"              content="Memory, Game, Tyles" />
 		<meta name="author"                content="Caesura Media Limited" />
 		<meta name="viewport"              content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta httpEquiv="X-UA-Compatible"  content="IE=edge,chrome=1" />
 
 		<title>MemTyles : A memory game</title>
 

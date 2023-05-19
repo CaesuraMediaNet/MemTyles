@@ -17,6 +17,7 @@ import BsCard from 'react-bootstrap/Card';
 import Cookies from 'js-cookie';
 import GameClock from '../components/scores';
 import WonModal from '../components/WonModal';
+import MtRow from '../components/MtRow';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -406,25 +407,45 @@ export default function Game () {
 		}
 	}
 	const cardTable = board.map (card => {
-		return <Col key={card.id} xs={6} sm={4} md={2} lg={1}>
-			<Card
-				key={card.id}
-				id={card.id}
-				icon={card.icon}
-				width={100}
-				height={100}
-				clicked={() => handleClick (card)}
-				flipped={card.flipped}
-				won={card.won}
-				colour={card.colour}
-				cardName={card.cardName}
-			/>
-		</Col>
+		let width = "25%";
+		console.log ("cardTable numCards : ", numCards);
+		if (numCards == 12) {
+		}
+		if (numCards == 16) {
+		}
+		if (numCards == 20) {
+			width = "20%";
+		}
+		if (numCards == 36) {
+			width = "16.6666666666%";
+		}
+		if (numCards == 42) {
+			width = "14.285714%";
+		}
+		if (numCards == 56) {
+			width = "12.5%";
+		}
+		return (
+			<div key={card.id} style={{ padding : "10px", width : width }}>
+				<Card 
+					key={card.id}
+					id={card.id}
+					icon={card.icon}
+					width={100}
+					height={100}
+					clicked={() => handleClick (card)}
+					flipped={card.flipped}
+					won={card.won}
+					colour={card.colour}
+					cardName={card.cardName}
+				/>
+			</div>
+		);
 	});
 	return (
 		<Layout>
 			<Container fluid>
-				<BsCard>
+				<BsCard style={{display:"flex",alignItems:"center"}}>
 					<h1>MemTyles</h1>
 					<Row>
 						<Col md={12}>
@@ -449,9 +470,11 @@ export default function Game () {
 							{wonAllPlay && <h5>You&#39;ve won the Game!</h5>}
 						</Col>
 					</Row>
-					<Row>
-						{cardTable}
-					</Row>
+					<div style={{ width : "75%"}} >
+						<MtRow>
+							{cardTable}
+						</MtRow>
+					</div>
 				</BsCard>
 			</Container>
 			<ScoresTable />
