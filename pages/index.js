@@ -176,7 +176,6 @@ function shuffleCards (cards, numCards) {
   // https://stackoverflow.com/questions/39827087/add-key-value-pair-to-all-objects-in-array
   //
   let indexedCards = doubledUp.map((card, index) => ({...card, id : index}));
-  console.log ("indexedCards is ", indexedCards);
 
   return indexedCards;
 }

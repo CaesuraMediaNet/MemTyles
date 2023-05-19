@@ -3,18 +3,24 @@ import Image from 'next/image';
 import styles from './layout.module.css';
 import utilStyles from '../styles/utils.module.css';
 import Link from 'next/link';
+import { Averia_Sans_Libre } from 'next/font/google';
+const memTylesFont =Averia_Sans_Libre({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 const name = 'MemTyles';
-export const siteTitle = 'Memory Game';
+export const siteTitle = 'MemTyles : A Tyle Memory Game';
 
 export default function Layout({ children, home }) {
   return (
-    <div className={styles.container}>
+    <div className={[styles.container, memTylesFont.className].join (' ')}>
       <Head>
         <link rel="icon" href="/favicon.ico" />
         <meta
           name="description"
-          content="A memory game turning over two tiles and win when they match."
+          content="A memory game turning over two Tyles and win when they match."
         />
         <meta
           property="og:image"
