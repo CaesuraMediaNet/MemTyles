@@ -479,7 +479,7 @@ export default function Game () {
 							{wonAllPlay && <h5>You&#39;ve won the Game!</h5>}
 						</Col>
 					</Row>
-					<div style={{ width : "95%"}} >
+					<div style={{ maxWidth : "650px"}} >
 						<MtRow>
 							{cardTable}
 						</MtRow>
