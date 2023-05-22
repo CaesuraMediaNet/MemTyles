@@ -454,7 +454,12 @@ export default function Game () {
 	return (
 		<Layout>
 			<Container fluid>
-				<BsCard style={{display:"flex",alignItems:"center", paddingBottom:"3rem"}}>
+				<BsCard style={{
+						border : "1px solid #2dce89",
+						display:"flex",
+						alignItems:"center",
+						paddingBottom:"3rem"
+					}}>
 					<h1>MemTyles</h1>
 					<Row>
 						<Col md={12}>
