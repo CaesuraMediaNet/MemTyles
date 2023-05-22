@@ -1,3 +1,13 @@
+// ToDo 
+// o	Instructions with pictures and dismiss in Coookies.
+// o	Move all styles to one stylesheet.
+// o	Move functions into components/ or functions/
+// o	Goes : 0 initially, not short instructions
+// o	Same resize for won Tyles for the bigger icons.
+// o	Google Ads
+// o	Privacy notice.
+// o	Centred won modal.
+// o	memtyles.com register and point to Vercel.
 import Head from 'next/head';
 import Image from 'next/image';
 
@@ -92,10 +102,10 @@ const colours = [
 
 const initBoard = [
 	{id : 0,  icon : faEnvelope,          cardName : "Envelope,",         flipped : false, won : false},
-	{id : 1,  icon : faRocket,            cardName : "Rocket",            flipped : false, won : false},
-	{id : 2,  icon : faHippo,             cardName : "Hippo",             flipped : false, won : false},
-	{id : 3,  icon : faUmbrella,          cardName : "Umbrella",          flipped : false, won : false},
-	{id : 4,  icon : faGift,              cardName : "Gift",              flipped : false, won : false},
+	{id : 1,  icon : faHippo,             cardName : "Hippo",             flipped : false, won : false},
+	{id : 2,  icon : faUmbrella,          cardName : "Umbrella",          flipped : false, won : false},
+	{id : 3,  icon : faGift,              cardName : "Gift",              flipped : false, won : false},
+	{id : 4,  icon : faRocket,            cardName : "Rocket",            flipped : false, won : false},
 	{id : 5,  icon : faLemon,             cardName : "Lemon",             flipped : false, won : false},
 	{id : 6,  icon : faBrush,             cardName : "Brush",             flipped : false, won : false},
 	{id : 7,  icon : faMagicWandSparkles, cardName : "MagicWandSparkles", flipped : false, won : false},
@@ -192,15 +202,17 @@ function shuffleCards (cards, numCards) {
 
 export default function Game () {
 
-	const [board, setBoard]             = useState (initBoard);
-	const [wonPlay, setWonPlay]         = useState (false);
-	const [wonAllPlay, setWonAllPlay]   = useState (false);
-	const [numCards, setNumCards]       = useState (4);
-	const [numClicks, setNumClicks]     = useState (0);
-	const [gameTime,setGameTime]        = useState(0);
-	const [timerAction,setTimerAction]  = useState("start");
-	const [scores,setScores]            = useState ([]);
-	const numCardsRef                   = useRef();
+	const [board, setBoard]                         = useState (initBoard);
+	const [wonPlay, setWonPlay]                     = useState (false);
+	const [wonAllPlay, setWonAllPlay]               = useState (false);
+	const [numCards, setNumCards]                   = useState (12);
+	const [numClicks, setNumClicks]                 = useState (0);
+	const [gameTime,setGameTime]                    = useState(0);
+	const [timerAction,setTimerAction]              = useState("start");
+	const [scores,setScores]                        = useState ([]);
+	const [instructionsShown, setInstructionsShown] = useState (false);
+	const numCardsRef                               = useRef();
+	const instructionsRef                           = useRef();
 
 	// When all loaded up, then shuffle the cards to avoid a hydration error.
 	// useState (shuffleCards(initBoard.slice()) gave hydration errors.
@@ -209,7 +221,7 @@ export default function Game () {
 	//
 	useEffect(() => {
 		let shuffledBoard = shuffleCards(initBoard.slice(), numCards);
-		setBoard (shuffledBoard);
+		setBoard        (shuffledBoard);
 		let currentScores = getScores();
 		setScores ((scores) => currentScores);
 	}, [numCards])
@@ -331,7 +343,7 @@ export default function Game () {
 					ref={numCardsRef}
 					onChange={() => changeNumCards ()}
 					aria-label="Select number of Cards"
-					value={numCardsRef?.current?.value || "4"}
+					value={numCardsRef?.current?.value || "12"}
 				>
 					<option value="4">4</option>
 					<option value="12">12</option>
@@ -451,6 +463,15 @@ export default function Game () {
 			</div>
 		);
 	});
+	// AKJC HERE : These need sorting out
+	function showInstructions () {
+		instructionsRef.current.style =  {maxHeight : "unset", opacity : "1.0"};
+		instructionsRef.current.scrollIntoView();
+		console.log ("instructionsRef: " , instructionsRef);
+	}
+	function hideInstructions () {
+		instructionsRef.current.style = {maxHeight : "0px", opacity : "0.0"};
+	}
 	return (
 		<Layout>
 			<Container fluid>
@@ -461,6 +482,12 @@ export default function Game () {
 						paddingBottom:"3rem"
 					}}>
 					<h1>MemTyles</h1>
+					<p
+						style={{textDecoration : "underline", color : "#2dce89", cursor : "pointer"   }}
+						onClick={showInstructions}
+					>
+						Click to see Instructions
+					</p>
 					<Row>
 						<Col md={12}>
 							<Row>
@@ -493,6 +520,36 @@ export default function Game () {
 			</Container>
 			{scores.length > 0 && <ScoresTable />}
 			{wonAllPlay && <WonModal numClicks={numClicks} gameTime={gameTime} numTyles={numCards} />}
+			<div ref={instructionsRef}>
+				<h5>Instructions</h5>
+				{/*
+				<p onClick={hideInstructions}
+					style={{textDecoration : "underline", color : "#2dce89", cursor : "pointer"}}
+				>
+					Hide instructions
+				</p>
+				*/}
+				<p>The board is made up of pairs of pictures, or Tyles as we call them, like this : </p>
+				<img style={{maxWidth: "100%", height:"auto"}} src="/img/wonGame.png" />
+				<p>At the start of the game the board has all Tyles turned over, showing the jigsaw image : </p>
+				<img style={{maxWidth: "100%", height:"auto"}} src="/img/startGame.png" />
+				<p>The game is to turn over pairs of Tyles, by clicking on the Jigsaw pictures, to find the matching ones, like this : </p>
+				<img style={{maxWidth: "100%", height:"auto"}} src="/img/twoMatchingTyles.png" />
+				<p>Only two Tyles can be turned over at any one time, clicking on any more will not do anything.</p>
+				<p>If your two Tyles do not match ... </p>
+				<img style={{maxWidth: "100%", height:"auto"}} src="/img/twoMisMatchingTyles.png" />
+				<p> ...you can turn either one back over by clicking on it again (the hippo here) : </p>
+				<img style={{maxWidth: "100%", height:"auto"}} src="/img/oneTyleShowingOnly.png" />
+				<p>If your two Tyles match, then they become a bit opaque and cannot be clicked on again, and you can select two more Tyles : </p>
+				<img style={{maxWidth: "100%", height:"auto"}} src="/img/twoMatchingTyles.png" />
+				<p>When all Tyles are matched, you have won the game!</p>
+				<p>You can change the number of Tyles on the board with the selector at the top.  We have
+					started you on 12, but you can select 4 (easy!), 12, 16, 20, 36, 42 or if you are feeling brave, 56.</p>
+				<p>You can restart the game using the Clear Board button at the top : </p>
+				<img style={{maxWidth: "100%", height:"auto"}} src="/img/clearBoardButton.png" />
+				<p>Your scores are in the Past Scores section.  They are saved in Cookies, so no scores are
+					recorded by us.</p>
+			</div>
 		</Layout>
 	);
 }
