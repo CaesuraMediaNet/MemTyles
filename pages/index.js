@@ -130,6 +130,7 @@ export default function Game () {
 	const [timerAction,setTimerAction]              = useState("start");
 	const [scores,setScores]                        = useState ([]);
 	const [showInstructions, setShowInstructions]   = useState (true);
+	const [showPrivacyLink, setShowPrivacyLink]  = useState (false);
 
 	const numCardsRef                               = useRef();
 	const instructionsRef                           = useRef();
@@ -272,7 +273,7 @@ export default function Game () {
 					<FontAwesomeIcon
 						style={{position:"absolute", left : "5px", top : "5px", width : "20px"}}
 						icon={faUserSecret}
-						onClick={() => setShowInstructions(true)}
+						onClick={() => setShowPrivacyLink (true)}
 						title={"Privacy Policy"}
 					/>
 
@@ -281,6 +282,20 @@ export default function Game () {
 						onClick={scrollToInstructions}
 					>
 						Click to see Instructions
+					</p>}
+
+					{showPrivacyLink && <p>
+						<a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="nofollow">Here</a> is our privacy policy from Vercel, who hosts this site.  As a customer of Vercel (us)
+						we do not collect any personal info from you at all, just what Vercel say here : 
+						<a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="nofollow">
+							https://vercel.com/legal/privacy-policy
+						</a>
+						<p
+							style={{textDecoration : "underline", color : "#2dce89", cursor : "pointer"   }}
+							onClick={() => setShowPrivacyLink (false)}
+						>
+							Dismiss
+						</p>
 					</p>}
 					<Row>
 						<Col md={12}>
