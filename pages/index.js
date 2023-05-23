@@ -264,13 +264,13 @@ export default function Game () {
 					}}>
 					<h1>MemTyles</h1>
 					<FontAwesomeIcon
-						style={{position:"absolute", right : "5px", top : "5px", width : "30px"}}
+						style={{position:"absolute", right : "5px", top : "5px", width : "15px"}}
 						icon={faQuestion}
 						onClick={() => setShowInstructions(true)}
 						title={"Help"}
 					/>
 					<FontAwesomeIcon
-						style={{position:"absolute", right : "45px", top : "10px", width : "35px"}}
+						style={{position:"absolute", left : "5px", top : "5px", width : "20px"}}
 						icon={faUserSecret}
 						onClick={() => setShowInstructions(true)}
 						title={"Privacy Policy"}
