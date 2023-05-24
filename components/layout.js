@@ -1,10 +1,9 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import styles from './layout.module.css';
-import utilStyles from '../styles/utils.module.css';
+import styles from '../styles/memtyles.module.css';
 import Link from 'next/link';
 import { Averia_Sans_Libre } from 'next/font/google';
-const memTylesFont =Averia_Sans_Libre({
+const memTylesFont = Averia_Sans_Libre({
   weight: '400',
   subsets: ['latin'],
   display: 'swap',

@@ -1,15 +1,13 @@
-import { useState } from 'react';
+// Container for the CardTable, similar to Boostrap Row, but tweeked.
+//
+import { useState }  from 'react';
 import { useEffect } from 'react';
-import { useRef } from 'react';
+import { useRef }    from 'react';
+import styles        from '../styles/memtyles.module.css';
 
 export default function MtRow ({children}) {
 	return (
-		<div style={{
-			display: "flex",
-			flexWrap: "wrap",
-			alignItems: "center",
-			justifyContent: "center",
-		}}>
+		<div className={styles.MtRowStyle}>
 			{children}
 		</div>
 	);

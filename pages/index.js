@@ -1,8 +1,5 @@
 // ToDo 
 // o	Instructions with pictures and dismiss in Coookies.
-// o	Move all styles to one stylesheet.
-// o	Move functions into components/ or functions/
-// o	Goes : 0 initially, not short instructions
 // o	Same resize for won Tyles for the bigger icons.
 // o	Google Ads
 // o	Privacy notice.
@@ -13,7 +10,7 @@
 //
 import Head from 'next/head';
 import Image from 'next/image';
-import utilStyles from '../styles/utils.module.css';
+import styles from '../styles/memtyles.module.css';
 import Layout, { siteTitle } from '../components/layout';
 
 // React.js
@@ -79,8 +76,6 @@ import Instructions from '../components/Instructions';
 import shuffleCards from '../functions/shuffleCards';
 import flipCard from '../functions/flipCard';
 import {addScore, getScores, clearScores} from '../functions/scores';
-
-
 
 // Clues : The GameClock sets the timer and when told to stop (in handleTyleClick after calcs have been
 // done to see if game is complete) then calls timeGameTook (via it's gameTime prop). timeGameTook
@@ -162,7 +157,7 @@ export default function Game () {
 	function ClearButton () {
 		return (
 			<button
-				className={utilStyles.button}
+				className={styles.button}
 				onClick={clearBoard}
 			>
 				Clear Board
@@ -209,37 +204,33 @@ export default function Game () {
 		setScores (allScores);
 	}
 	function Progress () {
-		if (numClicks > 0 && ! wonAllPlay) {
-			return (
-				<p>Goes : {numClicks}</p>
-			);
-		} else if (wonAllPlay) {
+		if (wonAllPlay) {
 			return (
 				<p>You did {numCards} Tyles in {numClicks} goes and {gameTime} seconds</p>
 			);
 		} else {
 			return (
-				<p>Select only two Tyles, click again to turn back over</p>
+				<p>Goes : {numClicks}</p>
 			);
 		}
 	}
 	function ScoresTable () {
 		return (
 			<>
-			<ul style={{textAlign : "left", marginTop : "10px"}}>
-			<h5>Past Scores</h5>
-			{scores.map ((score, index) => 
-				<li key={index}>
-					Cards : {score.numCards} Clicks : {score.numClicks} Time : {score.gameTime}
-				</li>
-			)}
-			<button
-				className={utilStyles.button}
-				 onClick={clearScoresScreen}
-			>
-				Clear Scores
-			</button>
-			</ul>
+				<ul className={styles.scoresTableUL}>
+					<h5>Past Scores</h5>
+					{scores.map ((score, index) => 
+						<li key={index}>
+							Cards : {score.numCards} Clicks : {score.numClicks} Time : {score.gameTime}
+						</li>
+					)}
+					<button
+						className={styles.button}
+						 onClick={clearScoresScreen}
+					>
+						Clear Scores
+					</button>
+				</ul>
 			</>
 		);
 	}
@@ -257,28 +248,23 @@ export default function Game () {
 	return (
 		<Layout>
 			<Container fluid>
-				<BsCard style={{
-						border : "1px solid #2dce89",
-						display:"flex",
-						alignItems:"center",
-						paddingBottom:"3rem"
-					}}>
+				<BsCard className={styles.BsCardStyle}>
 					<h1>MemTyles</h1>
 					<FontAwesomeIcon
-						style={{position:"absolute", right : "5px", top : "5px", width : "15px"}}
+						className={styles.navIconRight}
 						icon={faQuestion}
 						onClick={() => setShowInstructions(true)}
 						title={"Help"}
 					/>
 					<FontAwesomeIcon
-						style={{position:"absolute", left : "5px", top : "5px", width : "20px"}}
+						className={styles.navIconLeft}
 						icon={faUserSecret}
 						onClick={() => setShowPrivacyLink (true)}
 						title={"Privacy Policy"}
 					/>
 
 					{showInstructions && <p
-						style={{textDecoration : "underline", color : "#2dce89", cursor : "pointer"   }}
+						className={styles.pLink}
 						onClick={scrollToInstructions}
 					>
 						Click to see Instructions
@@ -291,7 +277,7 @@ export default function Game () {
 							https://vercel.com/legal/privacy-policy
 						</a>
 						<p
-							style={{textDecoration : "underline", color : "#2dce89", cursor : "pointer"   }}
+							className={styles.pLink}
 							onClick={() => setShowPrivacyLink (false)}
 						>
 							Dismiss
@@ -320,7 +306,7 @@ export default function Game () {
 							{wonAllPlay && <h5>You&#39;ve won the Game!</h5>}
 						</Col>
 					</Row>
-					<div style={{ maxWidth : "650px"}} >
+					<div className={styles.desktopMaxWidth}>
 						<MtRow>
 							<CardTable
 								board={board}
@@ -338,7 +324,7 @@ export default function Game () {
 				<>
 				<h5 ref={instructionsRef}>Instructions</h5>
 				<p onClick={() => setShowInstructions(false)}
-					style={{textDecoration : "underline", color : "#2dce89", cursor : "pointer"}}
+					className={styles.pLink}
                 >
 					Don&#39;t show again
 				</p>
