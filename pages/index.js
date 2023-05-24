@@ -125,7 +125,7 @@ export default function Game () {
 	const [timerAction,setTimerAction]              = useState("start");
 	const [scores,setScores]                        = useState ([]);
 	const [showInstructions, setShowInstructions]   = useState (true);
-	const [showPrivacyLink, setShowPrivacyLink]  = useState (false);
+	const [showPrivacyLink, setShowPrivacyLink]     = useState (false);
 
 	const numCardsRef                               = useRef();
 	const instructionsRef                           = useRef();
