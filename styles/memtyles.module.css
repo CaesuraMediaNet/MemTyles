@@ -104,3 +104,7 @@
 .gotItLink {
 	margin-top      : 25px;
 }
+.instructionP {
+	padding         : 25px;
+	font-size       : large;
+}
