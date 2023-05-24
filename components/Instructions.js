@@ -74,7 +74,8 @@ export default function Instructions () {
 					</MtRow>
 
 					<p className={styles.instructionP}>
-						...you can turn either one back over by clicking on it again  (the envelope here) :
+						...you can turn either one (or both) back over by clicking on it (them) again  (just
+						the envelope here) :
 					</p>
 					<MtRow>
 						<CardTable
