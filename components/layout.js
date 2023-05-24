@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/memtyles.module.css';
 import Link from 'next/link';
+import Script from 'next/script';
 import { Averia_Sans_Libre } from 'next/font/google';
 const memTylesFont = Averia_Sans_Libre({
   weight: '400',
@@ -52,6 +53,7 @@ export default function Layout({ children, home }) {
 		<meta property="og:image:type"       content="image/png" />
 		<meta property="og:image:width"      content="50" />
 		<meta property="og:image:height"     content="50" />
+		<Script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1254785829011101" />
       </Head>
       <header className={styles.header}>
       </header>
