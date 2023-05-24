@@ -1,3 +1,9 @@
+// MemTyles, a memory game where you match pairs of pictures by selecting two at a time until all are
+// matched.
+// React.js and Next.js
+// Uses some Bootstrap styles, but mainly mine own.
+// Copyright (c) 2023 Caesura Media Limited
+// 
 // ToDo 
 // x	Instructions with pictures and dismiss in Coookies.
 // x	Same resize for won Tyles for the bigger icons.
@@ -5,6 +11,7 @@
 // x	Privacy notice.
 // x	Centred won modal.
 // x	memtyles.com register and point to Vercel.
+// o	Add a MPEG-DASH Demo Video with Shaka player.
 
 // Next.js
 //
@@ -144,7 +151,7 @@ export default function Game () {
 				<Form.Select
 					ref={numCardsRef}
 					onChange={() => changeNumCards ()}
-					aria-label="Select number of Cards"
+					aria-label="Select number of Tyles"
 					value={numCardsRef?.current?.value || "12"}
 				>
 					<option value="4">4</option>
@@ -162,6 +169,8 @@ export default function Game () {
 		clearScores ();
 		setScores (scores => []);
 	}
+	// When a game is won this is called.
+	//
 	function timeGameTook ({timeS}) {
 		setGameTime ((gameTime) => timeS);
 		let thisGame = {
@@ -203,6 +212,8 @@ export default function Game () {
 			</>
 		);
 	}
+	// Flip the card, if possible and set some state.
+	//
 	function handleTyleClick (card) {
 		let { won, wonAll } = flipCard (card, numClicks, setNumClicks, board, setBoard);
 		if (won)    setWonPlay    (true);
@@ -215,9 +226,9 @@ export default function Game () {
 		instructionsRef.current.scrollIntoView({ behavior: 'smooth' });
 	}
 	return (
-		<Layout>
-			<Container fluid>
-				<BsCard className={styles.BsCardStyle}>
+		<Layout> {/* A Next.js idea */}
+			<Container fluid> {/* Bootstrap */}
+				<BsCard className={styles.BsCardStyle}> {/* Bootstrap and CML */}
 					<h1>MemTyles</h1>
 					<h1
 						className={styles.navIconRight}
@@ -235,32 +246,32 @@ export default function Game () {
 					</span>
 
 					{showPrivacyLink && <p>
-						<div class="card">
-						<div class="card-body">
-							<a
-								href="https://vercel.com/legal/privacy-policy"
-								target="_blank"
-								rel="nofollow"
-							>
-								Here
-							</a>
-								&nbsp; is our privacy policy from Vercel, who hosts this site.  As a customer
-								of Vercel (us) we do not collect any personal info from you at all,
-								just what Vercel say&nbsp;:&nbsp;
+						<div class="card">             {/* Bootstrap */}
+							<div class="card-body">    {/* Bootstrap, to give it width */}
 								<a
 									href="https://vercel.com/legal/privacy-policy"
 									target="_blank"
 									rel="nofollow"
 								>
-									https://vercel.com/legal/privacy-policy
+									Here
 								</a>
-							
-							<p className={[styles.gotItLink, styles.pLink].join (' ')}
-								onClick={() => setShowPrivacyLink (false)}
-							>
-								Got it
-							</p>
-						</div>
+									&nbsp; is our privacy policy from Vercel, who hosts this site.  As a customer
+									of Vercel (us) we do not collect any personal info from you at all,
+									just what Vercel say&nbsp;:&nbsp;
+									<a
+										href="https://vercel.com/legal/privacy-policy"
+										target="_blank"
+										rel="nofollow"
+									>
+										https://vercel.com/legal/privacy-policy
+									</a>
+								
+								<p className={[styles.gotItLink, styles.pLink].join (' ')}
+									onClick={() => setShowPrivacyLink (false)}
+								>
+									Got it
+								</p>
+							</div>
 						</div>
 					</p>}
 					<Row>
@@ -297,4 +308,3 @@ export default function Game () {
 		</Layout>
 	);
 }
-
