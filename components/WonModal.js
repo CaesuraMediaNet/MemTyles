@@ -9,7 +9,7 @@ export default function WonModal ({numClicks, gameTime, numTyles}) {
 	const handleClose = () => setShow(false);
 	const handleShow  = () => setShow(true);
 	return (
-		<Modal show={show} onHide={handleClose}>
+		<Modal show={show} onHide={handleClose} centered>
 			<Modal.Header closeButton>
 				<Modal.Title>WooHoo, you Won!</Modal.Title>
 			</Modal.Header>

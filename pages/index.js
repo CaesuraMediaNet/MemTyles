@@ -1,10 +1,10 @@
 // ToDo 
-// o	Instructions with pictures and dismiss in Coookies.
-// o	Same resize for won Tyles for the bigger icons.
+// x	Instructions with pictures and dismiss in Coookies.
+// x	Same resize for won Tyles for the bigger icons.
 // o	Google Ads
-// o	Privacy notice.
+// x	Privacy notice.
 // o	Centred won modal.
-// o	memtyles.com register and point to Vercel.
+// x	memtyles.com register and point to Vercel.
 
 // Next.js
 //
