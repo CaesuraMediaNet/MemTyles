@@ -81,14 +81,14 @@
 .navIconRight {
 	position        : absolute;
 	right           : 5px;
-	top             : 5px;
-	width           : 15px;
+	cursor          : pointer;
 }
 .navIconLeft {
 	position        : absolute;
 	left            : 5px;
 	top             : 5px;
-	width           : 20px;
+	width           : 25px;
+	cursor          : pointer;
 }
 .pLink {
 	text-decoration : underline;
@@ -97,4 +97,10 @@
 }
 .desktopMaxWidth {
 	max-width       : 650px;
+}
+.instructionsH {
+	margin-top      : 25px;
+}
+.gotItLink {
+	margin-top      : 25px;
 }

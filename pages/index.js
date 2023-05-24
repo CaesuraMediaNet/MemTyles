@@ -124,7 +124,6 @@ export default function Game () {
 	const [gameTime,setGameTime]                    = useState(0);
 	const [timerAction,setTimerAction]              = useState("start");
 	const [scores,setScores]                        = useState ([]);
-	const [showInstructions, setShowInstructions]   = useState (true);
 	const [showPrivacyLink, setShowPrivacyLink]     = useState (false);
 
 	const numCardsRef                               = useRef();
@@ -243,19 +242,20 @@ export default function Game () {
 		}
 	}
 	function scrollToInstructions () {
-		if (showInstructions) instructionsRef.current.scrollIntoView({ behavior: 'smooth' });
+		instructionsRef.current.scrollIntoView({ behavior: 'smooth' });
 	}
 	return (
 		<Layout>
 			<Container fluid>
 				<BsCard className={styles.BsCardStyle}>
 					<h1>MemTyles</h1>
-					<FontAwesomeIcon
+					<h1
 						className={styles.navIconRight}
-						icon={faQuestion}
-						onClick={() => setShowInstructions(true)}
+						onClick={() => scrollToInstructions()}
 						title={"Help"}
-					/>
+					>
+						?
+					</h1>
 					<FontAwesomeIcon
 						className={styles.navIconLeft}
 						icon={faUserSecret}
@@ -263,37 +263,38 @@ export default function Game () {
 						title={"Privacy Policy"}
 					/>
 
-					{showInstructions && <p
-						className={styles.pLink}
-						onClick={scrollToInstructions}
-					>
-						Click to see Instructions
-					</p>}
-
 					{showPrivacyLink && <p>
-						<a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="nofollow">Here</a> is our privacy policy from Vercel, who hosts this site.  As a customer of Vercel (us)
-						we do not collect any personal info from you at all, just what Vercel say here : 
-						<a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="nofollow">
-							https://vercel.com/legal/privacy-policy
-						</a>
-						<p
-							className={styles.pLink}
-							onClick={() => setShowPrivacyLink (false)}
-						>
-							Dismiss
-						</p>
+						<div class="card">
+						<div class="card-body">
+							<a
+								href="https://vercel.com/legal/privacy-policy"
+								target="_blank"
+								rel="nofollow"
+							>
+								Here
+							</a>
+								&nbsp; is our privacy policy from Vercel, who hosts this site.  As a customer
+								of Vercel (us) we do not collect any personal info from you at all,
+								just what Vercel say&nbsp;:&nbsp;
+								<a
+									href="https://vercel.com/legal/privacy-policy"
+									target="_blank"
+									rel="nofollow"
+								>
+									https://vercel.com/legal/privacy-policy
+								</a>
+							
+							<p className={[styles.gotItLink, styles.pLink].join (' ')}
+								onClick={() => setShowPrivacyLink (false)}
+							>
+								Got it
+							</p>
+						</div>
+						</div>
 					</p>}
 					<Row>
 						<Col md={12}>
-							<Row>
-								<Col md={5}>
-								</Col>
-								<Col md={2}>
-									<SelectNumCards />
-								</Col>
-								<Col md={5}>
-								</Col>
-							</Row>
+							<SelectNumCards />
 						</Col>
 						<Col md={12}>
 							<ClearButton />
@@ -320,18 +321,8 @@ export default function Game () {
 			</Container>
 			{scores.length > 0 && <ScoresTable />}
 			{wonAllPlay && <WonModal numClicks={numClicks} gameTime={gameTime} numTyles={numCards} />}
-			{showInstructions && 
-				<>
-				<h5 ref={instructionsRef}>Instructions</h5>
-				<p onClick={() => setShowInstructions(false)}
-					className={styles.pLink}
-                >
-					Don&#39;t show again
-				</p>
-
-				<Instructions />
-				</>
-			}
+			<h5 className={styles.instructionsH} ref={instructionsRef}>Instructions</h5>
+			<Instructions />
 		</Layout>
 	);
 }
