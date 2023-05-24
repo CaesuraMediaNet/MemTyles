@@ -3,7 +3,7 @@
 // x	Same resize for won Tyles for the bigger icons.
 // o	Google Ads
 // x	Privacy notice.
-// o	Centred won modal.
+// x	Centred won modal.
 // x	memtyles.com register and point to Vercel.
 
 // Next.js
