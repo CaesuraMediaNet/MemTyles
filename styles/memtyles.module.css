@@ -87,13 +87,11 @@
 	float           : left;
 	width           : 25px;
 	cursor          : pointer;
-	margin-left     : 25px;
 }
 .navIconGitHub {
 	float           : right;
 	width           : 31px;
 	cursor          : pointer;
-	margin-left     : 25px;
 }
 .pLink {
 	text-decoration : underline;

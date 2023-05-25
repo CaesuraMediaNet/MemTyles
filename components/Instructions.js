@@ -87,8 +87,7 @@ export default function Instructions () {
 					</MtRow>
 
 					<p className={styles.instructionP}>
-						If your two Tyles match, then they become a bit opaque and cannot be clicked
-						on again, and you can select two more Tyles : 
+						If your two Tyles match, then they become a bit opaque and you can select then two more Tyles : 
 					</p>
 					<MtRow>
 						<CardTable
@@ -112,7 +111,7 @@ export default function Instructions () {
 					</MtRow>
 
 					<p className={styles.instructionP}>
-						You can change the number of Tyles on the board with the selector at the top.  We have
+						You can change the number of Tyles on the board with the selector under the game.  We have
 						started you on 12, but you can select 4 (easy!), 12, 16, 20, 36, 42 or if you are
 						feeling brave, 56.
 					</p>
@@ -125,6 +124,9 @@ export default function Instructions () {
 					<p className={styles.instructionP}>
 						Your scores are in the Past Scores section.  They are saved in Cookies, so no scores are
 						recorded by us.
+					</p>
+					<p className={styles.instructionP}>
+						Good luck!
 					</p>
 				</div>
 			</BsCard>
