@@ -84,7 +84,7 @@
 	cursor          : pointer;
 }
 .navIconPrivacy {
-	float           : right;
+	float           : left;
 	width           : 25px;
 	cursor          : pointer;
 	margin-left     : 25px;

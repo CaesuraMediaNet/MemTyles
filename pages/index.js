@@ -278,31 +278,39 @@ export default function Game () {
 			{/*showPrivacyLink && <PrivacyPolicy setShowPrivacyLink={setShowPrivacyLink} />*/}
 			<Container fluid> {/* Bootstrap */}
 				<footer className={styles.footer}>
-					Copyright &copy; Caesura Media Limited, 2023
-					<a
-						href="https://vercel.com/legal/privacy-policy"
-						title={"Privacy Policy"}
-						rel="nofolow"
-						target="_blank"
-						style={{color : "#2dce89"}}
-					>
-						<FontAwesomeIcon
-							className={styles.navIconPrivacy}
-							icon={faUserSecret}
-						/>
-					</a>
-					<a
-						href="https://github.com/CaesuraMediaNet/MemTyles"
-						title={"GitHub Code Repo"}
-						rel="nofolow"
-						target="_blank"
-						style={{color : "#2dce89"}}
-					>
-						<img
-							src={"/img/github-mark.png"}
-							className={styles.navIconGitHub}
-						/>
-					</a>
+					<Row>
+						<Col>
+							<a
+								href="https://vercel.com/legal/privacy-policy"
+								title={"Privacy Policy"}
+								rel="nofolow"
+								target="_blank"
+								style={{color : "#2dce89"}}
+							>
+								<FontAwesomeIcon
+									className={styles.navIconPrivacy}
+									icon={faUserSecret}
+								/>
+							</a>
+						</Col>
+						<Col>
+							Copyright &copy; Caesura Media Limited, 2023
+						</Col>
+						<Col>
+							<a
+								href="https://github.com/CaesuraMediaNet/MemTyles"
+								title={"GitHub Code Repo"}
+								rel="nofolow"
+								target="_blank"
+								style={{color : "#2dce89"}}
+							>
+								<img
+									src={"/img/github-mark.png"}
+									className={styles.navIconGitHub}
+								/>
+							</a>
+						</Col>
+					</Row>
 				</footer>
 			</Container>
 			<br />
