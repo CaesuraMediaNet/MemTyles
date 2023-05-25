@@ -15,7 +15,6 @@ export default function GameClock ({action, gameTime}) {
     }
 	function stopTimer () {
 		clearTimeout(token);
-		console.log ("stopTimer : ", timePlayed);
 
 		// Send total game time to the parent.
 		//
@@ -33,7 +32,6 @@ export default function GameClock ({action, gameTime}) {
 			const intervalId = setInterval(updateTime, 1000);
 			setToken (intervalId);
 			return function cleanUp() {
-				console.log ("cleanUp called");
 				clearTimeout(token);
 			}
 		}
@@ -41,10 +39,9 @@ export default function GameClock ({action, gameTime}) {
 
 	return (
 		action === "stop" ? (
-			<p>Time played : {new Date(timePlayed * 1000).toISOString().slice(11, 19)}</p>
+			<span>Time played : {new Date(timePlayed * 1000).toISOString().slice(11, 19)}</span>
 		) : (
-			<p>Playing     : {new Date(timePlayed * 1000).toISOString().slice(11, 19)}</p>
+			<span>              {new Date(timePlayed * 1000).toISOString().slice(11, 19)}</span>
 		)
-
 	);
 }

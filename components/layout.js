@@ -58,9 +58,6 @@ export default function Layout({ children, home }) {
       <header className={styles.header}>
       </header>
       <main>{children}</main>
-      <footer className={styles.footer}>
-	  	Copyright &copy; Caesura Media Limited, 2023
-	  </footer>
     </div>
   );
 }

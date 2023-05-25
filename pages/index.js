@@ -78,6 +78,7 @@ import MtRow from '../components/MtRow';
 import CardTable from '../components/CardTable';
 import Instructions from '../components/Instructions';
 import {initBoard} from '../components/boards';
+import PrivacyPolicy from '../components/PrivacyPolicy';
 
 // Local functions.
 //
@@ -233,57 +234,15 @@ export default function Game () {
 					<h1
 						className={styles.navIconRight}
 						onClick={() => scrollToInstructions()}
-						title={"Help"}
+						title={"Instructions"}
 					>
 						?
 					</h1>
-					<span title={"Privacy Policy"}> {/* Bug with FontAwesomeIcon on title */}
-						<FontAwesomeIcon
-							className={styles.navIconLeft}
-							icon={faUserSecret}
-							onClick={() => setShowPrivacyLink (true)}
-						/>
-					</span>
-
-					{showPrivacyLink && <p>
-						<div class="card">             {/* Bootstrap */}
-							<div class="card-body">    {/* Bootstrap, to give it width */}
-								<a
-									href="https://vercel.com/legal/privacy-policy"
-									target="_blank"
-									rel="nofollow"
-								>
-									Here
-								</a>
-									&nbsp; is our privacy policy from Vercel, who hosts this site.  As a customer
-									of Vercel (us) we do not collect any personal info from you at all,
-									just what Vercel say&nbsp;:&nbsp;
-									<a
-										href="https://vercel.com/legal/privacy-policy"
-										target="_blank"
-										rel="nofollow"
-									>
-										https://vercel.com/legal/privacy-policy
-									</a>
-								
-								<p className={[styles.gotItLink, styles.pLink].join (' ')}
-									onClick={() => setShowPrivacyLink (false)}
-								>
-									Got it
-								</p>
-							</div>
-						</div>
-					</p>}
 					<Row>
 						<Col md={12}>
-							<SelectNumCards />
 						</Col>
 						<Col md={12}>
 							<ClearButton />
-						</Col>
-						<Col md={12}>
-							<Progress />
-							<GameClock gameTime={timeGameTook} action={timerAction}  />
 						</Col>
 						<Col md={12}>
 							{wonAllPlay && <h5>You&#39;ve won the Game!</h5>}
@@ -298,13 +257,55 @@ export default function Game () {
 								numCards={numCards}
 							/>
 						</MtRow>
+						<Row>
+							<Col xs={12} md={6} lg={6} xl={6}>
+								<Progress />
+							</Col>
+							<Col xs={12} md={6} lg={6} xl={6}>
+								<GameClock gameTime={timeGameTook} action={timerAction}  />
+							</Col>
+						</Row>
+						<SelectNumCards />
 					</div>
 				</BsCard>
 			</Container>
 			{scores.length > 0 && <ScoresTable />}
 			{wonAllPlay && <WonModal numClicks={numClicks} gameTime={gameTime} numTyles={numCards} />}
 			<h5 className={styles.instructionsH} ref={instructionsRef}>Instructions</h5>
+
+
 			<Instructions />
+			{/*showPrivacyLink && <PrivacyPolicy setShowPrivacyLink={setShowPrivacyLink} />*/}
+			<Container fluid> {/* Bootstrap */}
+				<footer className={styles.footer}>
+					Copyright &copy; Caesura Media Limited, 2023
+					<a
+						href="https://vercel.com/legal/privacy-policy"
+						title={"Privacy Policy"}
+						rel="nofolow"
+						target="_blank"
+						style={{color : "#2dce89"}}
+					>
+						<FontAwesomeIcon
+							className={styles.navIconPrivacy}
+							icon={faUserSecret}
+						/>
+					</a>
+					<a
+						href="https://github.com/CaesuraMediaNet/MemTyles"
+						title={"GitHub Code Repo"}
+						rel="nofolow"
+						target="_blank"
+						style={{color : "#2dce89"}}
+					>
+						<img
+							src={"/img/github-mark.png"}
+							className={styles.navIconGitHub}
+						/>
+					</a>
+				</footer>
+			</Container>
+			<br />
 		</Layout>
 	);
 }

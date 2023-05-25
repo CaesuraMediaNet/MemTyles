@@ -19,7 +19,7 @@
 .footer {
 	border : 1px solid #2dce89;
 	border-radius : 0.375rem;
-	padding : 10px;
+	padding : 20px;
 	width : 100%;
 	margin-top : 25px;
 }
@@ -73,7 +73,7 @@
 	margin-top      : 10px;
 }
 .BsCardStyle {
-	border          : 1px solid #2dce89;
+	border          : 1px solid #2dce89!important;
 	display         : flex;
 	align-items     : center;
 	padding-bottom  : 3rem
@@ -83,12 +83,17 @@
 	right           : 5px;
 	cursor          : pointer;
 }
-.navIconLeft {
-	position        : absolute;
-	left            : 5px;
-	top             : 5px;
+.navIconPrivacy {
+	float           : right;
 	width           : 25px;
 	cursor          : pointer;
+	margin-left     : 25px;
+}
+.navIconGitHub {
+	float           : right;
+	width           : 31px;
+	cursor          : pointer;
+	margin-left     : 25px;
 }
 .pLink {
 	text-decoration : underline;
