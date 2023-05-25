@@ -8,6 +8,13 @@ import MtRow from '../components/MtRow';
 import Container from 'react-bootstrap/Container';
 import BsCard from 'react-bootstrap/Card';
 
+// https://www.npmjs.com/package/shaka-player-react
+// Next.js config.
+//
+import dynamic from 'next/dynamic';
+const ShakaPlayer = dynamic(() => import('shaka-player-react'), { ssr: false });
+import 'shaka-player/dist/controls.css';
+
 function handleTyleClick () {
 	return null;
 }
@@ -128,6 +135,10 @@ export default function Instructions () {
 					<p className={styles.instructionP}>
 						Good luck!
 					</p>
+					<p className={styles.instructionP}>
+						Here is a video showing a game being played.
+					</p>
+					<ShakaPlayer src="/video/DemoVideo.mpd" />
 				</div>
 			</BsCard>
 		</Container>
