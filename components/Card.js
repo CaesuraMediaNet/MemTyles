@@ -18,7 +18,8 @@ export default function Card ({id, icon, width, height, clicked, flipped, won, c
         width   : "100%",
     }
     let blankStyle         = {...iconStyle, color   : "dimgray"};
-    let selectedStyle      = {...iconStyle, border  : "1px solid green", borderRadius : "0.2rem",};
+    // Was : let selectedStyle      = {...iconStyle, border  : "1px solid green", borderRadius : "0.2rem",};
+    let selectedStyle      = {...iconStyle};
     let wonStyle           = {...iconStyle, opacity : 0.6};
 
     // Some icons are bigger than others moving the page about.
@@ -30,7 +31,7 @@ export default function Card ({id, icon, width, height, clicked, flipped, won, c
 		wonStyle      = reduceWonBigIconStyle;
     }
     return (
-        <div className={styles.cardStyle} onClick={clicked} >
+        <div className={flipped ? styles.cardStyleFlipped : styles.cardStyle} onClick={clicked} >
             {flipped ?
                 <FontAwesomeIcon style={selectedStyle} icon={icon} />
                 : won ?
