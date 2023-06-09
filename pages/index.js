@@ -281,7 +281,7 @@ export default function Game () {
 					<Row>
 						<Col>
 							<a
-								href="https://vercel.com/legal/privacy-policy"
+								href="/privacy_policy/index.html"
 								title={"Privacy Policy"}
 								rel="nofolow"
 								target="_blank"
