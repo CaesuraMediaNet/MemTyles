@@ -69,7 +69,7 @@ export const initBoard = [
 // For the instructions, instead of using screenshots, use the real thing.
 // Using slice() to make copies so they don't affect each other.
 //
-export const startBoard     = shuffleCards(initBoard.slice(), 12);
+export const startBoard     = shuffleCards(initBoard.slice(), 12, true);
 export const wonBoard       = startBoard.slice().map((card) => ({...card, won : true}));
 export const twoMatching    = startBoard.slice().map((card) => ({...card, won : card.icon === faRocket ? true : false}));
 
