@@ -82,7 +82,9 @@
 	border          : 1px solid #2dce89!important;
 	display         : flex;
 	align-items     : center;
-	padding-bottom  : 3rem
+	padding-bottom  : 3rem;
+	padding-left    : 3px;
+	padding-right   : 3px;
 }
 .navIconRight {
 	position        : absolute;
