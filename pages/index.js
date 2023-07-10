@@ -2,16 +2,10 @@
 // matched.
 // React.js and Next.js
 // Uses some Bootstrap styles, but mainly mine own.
+// memtyles.com
+// https://play.google.com/store/apps/details?id=com.memtyles - Android App version.
+//
 // Copyright (c) 2023 Caesura Media Limited
-// 
-// ToDo 
-// x   Instructions with pictures and dismiss in Coookies.
-// x   Same resize for won Tyles for the bigger icons.
-// o   Google Ads
-// x   Privacy notice.
-// x   Centred won modal.
-// x   memtyles.com register and point to Vercel.
-// o   Add a MPEG-DASH Demo Video with Shaka player.
 
 // Next.js
 //
