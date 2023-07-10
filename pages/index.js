@@ -273,34 +273,25 @@ export default function Game () {
          <Container fluid> {/* Bootstrap */}
             <footer className={styles.footer}>
                <Row>
+                  <Col style={{textAlign : 'left'}}>
+                     Copyright &copy; Caesura Media Limited,  {new Date().getFullYear()}. All Rights Reserved.
+                  </Col>
+                  <Col>
+                     <div className={styles.googlePlayIcon}>
+                        <a target="_blank" href='https://play.google.com/store/apps/details?id=com.memtyles&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
+                     </div>
+                  </Col>
                   <Col>
                      <a
                         href="/privacy_policy/index.html"
                         title={"Privacy Policy"}
                         rel="nofolow"
                         target="_blank"
-                        style={{color : "#2dce89"}}
+                        style={{float : 'right', color : "#2dce89"}}
                      >
                         <FontAwesomeIcon
                            className={styles.navIconPrivacy}
                            icon={faUserSecret}
-                        />
-                     </a>
-                  </Col>
-                  <Col>
-                     Copyright &copy; Caesura Media Limited, 2023
-                  </Col>
-                  <Col>
-                     <a
-                        href="https://github.com/CaesuraMediaNet/MemTyles"
-                        title={"GitHub Code Repo"}
-                        rel="nofolow"
-                        target="_blank"
-                        style={{color : "#2dce89"}}
-                     >
-                        <img
-                           src={"/img/github-mark.png"}
-                           className={styles.navIconGitHub}
                         />
                      </a>
                   </Col>
