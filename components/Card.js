@@ -9,8 +9,8 @@ import styles              from '../styles/memtyles.module.css';
 
 export default function Card ({id, icon, width, height, clicked, flipped, won, colour, cardName}) {
 
-	// Next.js CSS Modules come in as classes, here we want CSS styles, not classNames.
-	//
+   // Next.js CSS Modules come in as classes, here we want CSS styles, not classNames.
+   //
     let iconStyle = {
         color   : colour,
         padding : "5px",
@@ -28,7 +28,7 @@ export default function Card ({id, icon, width, height, clicked, flipped, won, c
     let reduceWonBigIconStyle      = {...wonStyle,      width : "75%"};
     if (cardName.match (/Moon|Brush|Lemon|Bell|HourglassStart/i)) {
         selectedStyle = reduceSelectedBigIconStyle;
-		wonStyle      = reduceWonBigIconStyle;
+      wonStyle      = reduceWonBigIconStyle;
     }
     return (
         <div className={flipped ? styles.cardStyleFlipped : styles.cardStyle} onClick={clicked} >

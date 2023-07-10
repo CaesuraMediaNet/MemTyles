@@ -13,35 +13,35 @@ export default function GameClock ({action, gameTime}) {
     function updateTime () {
         setTimePlayed ((timePlayed) => timePlayed + 1)
     }
-	function stopTimer () {
-		clearTimeout(token);
+   function stopTimer () {
+      clearTimeout(token);
 
-		// Send total game time to the parent.
-		//
-		gameTime ({timeS : timePlayed});
-	}
-	useEffect(() => {
-		if (action === "stop") {
-			stopTimer ();
-		} else if (action.match (/^reset/)) { // reset1684323218711 - so that action changes but reset is the value.
-			setTimePlayed ((timePlayed) => 0);
-		} else if (action.match (/start/)) {
-			if (action === "restart") {
-				setTimePlayed ((timePlayed) => 0);
-			}
-			const intervalId = setInterval(updateTime, 1000);
-			setToken (intervalId);
-			return function cleanUp() {
-				clearTimeout(token);
-			}
-		}
+      // Send total game time to the parent.
+      //
+      gameTime ({timeS : timePlayed});
+   }
+   useEffect(() => {
+      if (action === "stop") {
+         stopTimer ();
+      } else if (action.match (/^reset/)) { // reset1684323218711 - so that action changes but reset is the value.
+         setTimePlayed ((timePlayed) => 0);
+      } else if (action.match (/start/)) {
+         if (action === "restart") {
+            setTimePlayed ((timePlayed) => 0);
+         }
+         const intervalId = setInterval(updateTime, 1000);
+         setToken (intervalId);
+         return function cleanUp() {
+            clearTimeout(token);
+         }
+      }
     }, [action]); // Do this whenever action changes.
 
-	return (
-		action === "stop" ? (
-			<span>Time played : {new Date(timePlayed * 1000).toISOString().slice(11, 19)}</span>
-		) : (
-			<span>              {new Date(timePlayed * 1000).toISOString().slice(11, 19)}</span>
-		)
-	);
+   return (
+      action === "stop" ? (
+         <span>Time played : {new Date(timePlayed * 1000).toISOString().slice(11, 19)}</span>
+      ) : (
+         <span>              {new Date(timePlayed * 1000).toISOString().slice(11, 19)}</span>
+      )
+   );
 }

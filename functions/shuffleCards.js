@@ -3,7 +3,6 @@ import React from 'react';
 // Shuffle the whole thing first then set the ids.
 // https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
 // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-// AKJC TODO : Randomise the cards first, then double up, then random again.
 //
 
 const colours = [
@@ -67,7 +66,7 @@ export default function shuffleCards (cards, numCards, noShuffleTwice) {
   //
   let randomisedCards = cards;
   if (!noShuffleTwice) {
-	  randomisedCards = randomise (cards);
+     randomisedCards = randomise (cards);
   }
   let selectedCards   = randomisedCards.slice (0, parseInt (numCards / 2));
 

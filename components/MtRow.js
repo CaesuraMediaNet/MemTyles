@@ -6,11 +6,11 @@ import { useRef }    from 'react';
 import styles        from '../styles/memtyles.module.css';
 
 export default function MtRow ({children}) {
-	return (
-		<div className={styles.MtRowStyle}>
-			{children}
-		</div>
-	);
+   return (
+      <div className={styles.MtRowStyle}>
+         {children}
+      </div>
+   );
 }
 
 
