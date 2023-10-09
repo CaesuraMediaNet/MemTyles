@@ -298,16 +298,16 @@ export default function Game () {
                </Row>
             </footer>
             <hr />
-            <iframe
-               style={{border:"unset", height:"100vw", width:"100vw"}}
-               src="https://caesuramedia.com/ads"
-               loading="lazy"
-               width="100%"
-               height="100%"
-               title="Adverts by me"
-            ></iframe>
          </Container>
          <br />
+         <iframe
+            style={{border:"unset", height:"100vw", width:"95vw"}}
+            src="https://caesuramedia.com/ads"
+            loading="lazy"
+            width="95%"
+            height="100%"
+            title="Adverts by me"
+         ></iframe>
       </Layout>
    );
 }
