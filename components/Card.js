@@ -13,7 +13,6 @@ export default function Card ({id, icon, width, height, clicked, flipped, won, c
    //
     let iconStyle = {
         color   : colour,
-        padding : "5px",
         height  : "100%",
         width   : "100%",
     }
